@@ -6,32 +6,29 @@ import edu.java.bot.validators.URLValidator;
 import java.net.URI;
 
 public class TrackCommand implements Command {
-    private final static String COMMAND = "/track";
-    private final static String DESCRIPTION = "start tracking link";
-
     @Override
     public String command() {
-        return COMMAND;
+        return CommandsEnum.TRACK.getCommand();
     }
 
     @Override
     public String description() {
-        return DESCRIPTION;
+        return CommandsEnum.TRACK.getDescription();
     }
 
     @Override
     public SendMessage handle(Update update) {
         String[] args = update.message().text().split(" ");
         if (args.length != 2) {
-            return new SendMessage(update.message().chat().id(), "Invalid format\nIt should be: \\track [URL]");
+            return new SendMessage(update.message().chat().id(), "Неверный формат\nДолжно быть: \\track [URL]");
         }
 
         URI url = URI.create(args[1]);
         if (!URLValidator.isValidLink(url)) {
-            return new SendMessage(update.message().chat().id(), "Invalid url format");
+            return new SendMessage(update.message().chat().id(), "Неверный формат ссылки");
         }
 
         //TODO add the link to user track list
-        return new SendMessage(update.message().chat().id(), "Successfully added to the track list");
+        return new SendMessage(update.message().chat().id(), "Успешно добавлено в список отслеживаемых ссылок");
     }
 }
