@@ -17,6 +17,11 @@ public class InMemBotDB implements Database {
         this.db = new HashMap<>();
     }
 
+    public Map<Long, List<String>> getDb() {
+        return db;
+    }
+
+    @Override
     public void addUser(long userId) {
         db.putIfAbsent(userId, new ArrayList<>());
     }

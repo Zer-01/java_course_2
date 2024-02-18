@@ -1,7 +1,7 @@
 package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
-import edu.java.bot.botUtils.RequestData;
+import edu.java.bot.botUtils.SendMessageRequest;
 
 public class HelpCommand implements Command {
     @Override
@@ -15,8 +15,8 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public RequestData handle(Update update) {
-        return RequestData.newMessageRequest(update.message().chat().id(), getCommandList());
+    public SendMessageRequest handle(Update update) {
+        return SendMessageRequest.newMessageRequest(update.message().chat().id(), getCommandList());
     }
 
     private String getCommandList() {

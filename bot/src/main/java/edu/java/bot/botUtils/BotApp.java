@@ -4,6 +4,8 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.ParseMode;
+import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import edu.java.bot.commands.Command;
 import edu.java.bot.commands.CommandProcessor;
@@ -26,24 +28,22 @@ public class BotApp implements Bot {
     }
 
     @Override
-    public void execute(RequestData requestData) {
-        bot.execute(requestData.request());
+    public void execute(SendMessageRequest requestData) {
+        bot.execute(new SendMessage(requestData.chatId(), requestData.message())
+            .parseMode(ParseMode.Markdown)
+            .disableWebPagePreview(true));
     }
 
     @Override
     public int process(List<Update> updates) {
-        if (updates == null) {
-            return UpdatesListener.CONFIRMED_UPDATES_ALL;
-        }
-
         for (Update update : updates) {
             if (update == null || update.message() == null || update.message().text().isEmpty()) {
                 continue;
             }
 
-            RequestData result = commandProcessor.process(update);
+            SendMessageRequest result = commandProcessor.process(update);
             if (result == null) {
-                result = RequestData.newMessageRequest(update.message().chat().id(), "Неизвестная команда");
+                result = SendMessageRequest.newMessageRequest(update.message().chat().id(), "Неизвестная команда");
             }
             execute(result);
         }

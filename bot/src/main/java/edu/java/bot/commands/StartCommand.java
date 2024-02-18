@@ -1,7 +1,7 @@
 package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
-import edu.java.bot.botUtils.RequestData;
+import edu.java.bot.botUtils.SendMessageRequest;
 import edu.java.bot.db.Database;
 
 public class StartCommand implements Command {
@@ -22,8 +22,8 @@ public class StartCommand implements Command {
     }
 
     @Override
-    public RequestData handle(Update update) {
+    public SendMessageRequest handle(Update update) {
         database.addUser(update.message().chat().id());
-        return RequestData.newMessageRequest(update.message().chat().id(), "Здравствуй, пользователь.");
+        return SendMessageRequest.newMessageRequest(update.message().chat().id(), "Здравствуй, пользователь.");
     }
 }

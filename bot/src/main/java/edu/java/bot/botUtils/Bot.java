@@ -5,7 +5,7 @@ import com.pengrad.telegrambot.model.Update;
 import java.util.List;
 
 public interface Bot extends AutoCloseable, UpdatesListener {
-    void execute(RequestData requestData);
+    void execute(SendMessageRequest requestData);
 
     @Override
     int process(List<Update> updates);

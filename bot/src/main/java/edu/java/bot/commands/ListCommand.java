@@ -1,7 +1,7 @@
 package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
-import edu.java.bot.botUtils.RequestData;
+import edu.java.bot.botUtils.SendMessageRequest;
 import edu.java.bot.db.Database;
 import java.net.URI;
 import java.util.List;
@@ -24,7 +24,7 @@ public class ListCommand implements Command {
     }
 
     @Override
-    public RequestData handle(Update update) {
+    public SendMessageRequest handle(Update update) {
         long chatId = update.message().chat().id();
         List<URI> linksList = database.getLinksList(chatId);
         String result;
@@ -34,7 +34,7 @@ public class ListCommand implements Command {
         } else {
             result = urlsListToString(linksList);
         }
-        return RequestData.newMessageRequest(chatId, result);
+        return SendMessageRequest.newMessageRequest(chatId, result);
     }
 
     private String urlsListToString(List<URI> linksList) {

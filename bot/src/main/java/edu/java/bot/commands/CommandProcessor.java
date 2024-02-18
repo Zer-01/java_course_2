@@ -1,7 +1,7 @@
 package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
-import edu.java.bot.botUtils.RequestData;
+import edu.java.bot.botUtils.SendMessageRequest;
 import edu.java.bot.db.Database;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class CommandProcessor {
         );
     }
 
-    public RequestData process(Update update) {
+    public SendMessageRequest process(Update update) {
         String firstWord = update.message().text().split(" ")[0];
         for (Command command : commands) {
             if (command.command().equals(firstWord)) {
