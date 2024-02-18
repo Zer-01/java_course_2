@@ -8,10 +8,11 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import edu.java.bot.commands.Command;
 import edu.java.bot.commands.CommandProcessor;
 import edu.java.bot.configuration.ApplicationConfig;
+import edu.java.bot.db.InMemBotDB;
 import jakarta.annotation.PostConstruct;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.List;
 
 @Component
 public class BotApp implements Bot {
@@ -19,9 +20,9 @@ public class BotApp implements Bot {
     CommandProcessor commandProcessor;
 
     @Autowired
-    public BotApp(ApplicationConfig config) {
+    public BotApp(ApplicationConfig config, InMemBotDB inMemBotDB) {
         this.bot = new TelegramBot(config.telegramToken());
-        this.commandProcessor = new CommandProcessor();
+        this.commandProcessor = new CommandProcessor(inMemBotDB);
     }
 
     @Override

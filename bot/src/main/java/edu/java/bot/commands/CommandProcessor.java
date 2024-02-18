@@ -2,18 +2,19 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.RequestData;
+import edu.java.bot.db.Database;
 import java.util.List;
 
 public class CommandProcessor {
     List<Command> commands;
 
-    public CommandProcessor() {
+    public CommandProcessor(Database database) {
         commands = List.of(
             new HelpCommand(),
-            new ListCommand(),
-            new StartCommand(),
-            new TrackCommand(),
-            new UntrackCommand()
+            new ListCommand(database),
+            new StartCommand(database),
+            new TrackCommand(database),
+            new UntrackCommand(database)
         );
     }
 
