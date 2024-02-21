@@ -13,20 +13,11 @@ public class CommandProcessor {
     public CommandProcessor(Database database) {
         commands = new HashMap<>();
 
-        Command tmp = new HelpCommand();
-        commands.put(tmp.command(), tmp);
-
-        tmp = new ListCommand(database);
-        commands.put(tmp.command(), tmp);
-
-        tmp = new StartCommand(database);
-        commands.put(tmp.command(), tmp);
-
-        tmp = new TrackCommand(database);
-        commands.put(tmp.command(), tmp);
-
-        tmp = new UntrackCommand(database);
-        commands.put(tmp.command(), tmp);
+        commands.put(CommandsEnum.HELP.getCommand(), new HelpCommand());
+        commands.put(CommandsEnum.LIST.getCommand(), new ListCommand(database));
+        commands.put(CommandsEnum.START.getCommand(), new StartCommand(database));
+        commands.put(CommandsEnum.TRACK.getCommand(), new TrackCommand(database));
+        commands.put(CommandsEnum.UNTRACK.getCommand(), new UntrackCommand(database));
     }
 
     public SendMessageRequest process(Update update) {
