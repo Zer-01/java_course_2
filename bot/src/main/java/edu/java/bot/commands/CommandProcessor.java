@@ -3,21 +3,23 @@ package edu.java.bot.commands;
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
 import edu.java.bot.db.Database;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class CommandProcessor {
     Map<String, Command> commands;
 
-    public CommandProcessor(Database database) {
+    @Autowired
+    public CommandProcessor(List<Command> commandList) {
         commands = new HashMap<>();
 
-        commands.put(CommandsEnum.HELP.getCommand(), new HelpCommand());
-        commands.put(CommandsEnum.LIST.getCommand(), new ListCommand(database));
-        commands.put(CommandsEnum.START.getCommand(), new StartCommand(database));
-        commands.put(CommandsEnum.TRACK.getCommand(), new TrackCommand(database));
-        commands.put(CommandsEnum.UNTRACK.getCommand(), new UntrackCommand(database));
+        for (Command command : commandList) {
+            commands.put(command.command(), command);
+        }
     }
 
     public SendMessageRequest process(Update update) {

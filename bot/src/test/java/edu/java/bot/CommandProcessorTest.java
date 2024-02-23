@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
 import edu.java.bot.commands.CommandProcessor;
+import edu.java.bot.configuration.CPTestConfig;
 import edu.java.bot.db.InMemBotDB;
 import java.net.URI;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,18 +14,23 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest(classes = CPTestConfig.class)
 public class CommandProcessorTest {
     static final long chatId = 1;
-    static InMemBotDB db;
-    static CommandProcessor commandProcessor;
+    @Autowired
+    InMemBotDB db;
+    @Autowired
+    CommandProcessor commandProcessor;
 
     @BeforeEach
-    void initCP() {
-        db = new InMemBotDB();
+    void clearDB() {
+        db.getDb().clear();
         db.addUser(chatId);
-        commandProcessor = new CommandProcessor(db);
     }
 
     static Arguments[] commands() {
@@ -56,8 +62,7 @@ public class CommandProcessorTest {
 
         String result = commandProcessor.process(update).message();
 
-        assertThat(result)
-            .isEqualTo(outMessage);
+        assertEquals(result, outMessage);
     }
 
     @Test
@@ -85,8 +90,7 @@ public class CommandProcessorTest {
 
         String result = commandProcessor.process(update).message();
 
-        assertThat(result)
-            .isEqualTo(expResult);
+        assertEquals(result, expResult);
     }
 
     Update getMockedUpdate(String message) {

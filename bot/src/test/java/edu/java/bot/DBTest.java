@@ -4,17 +4,23 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.commands.CommandProcessor;
+import edu.java.bot.configuration.CPTestConfig;
 import edu.java.bot.db.InMemBotDB;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest(classes = CPTestConfig.class)
 public class DBTest {
-    static InMemBotDB db = new InMemBotDB();
-    static CommandProcessor commandProcessor = new CommandProcessor(db);
+    @Autowired
+    InMemBotDB db;
+    @Autowired
+    CommandProcessor commandProcessor;
 
     @Test
     void dbDataTest() {

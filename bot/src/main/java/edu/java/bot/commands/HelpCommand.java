@@ -2,7 +2,9 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HelpCommand implements Command {
     @Override
     public String command() {
@@ -16,7 +18,7 @@ public class HelpCommand implements Command {
 
     @Override
     public SendMessageRequest handle(Update update) {
-        return SendMessageRequest.newMessageRequest(update.message().chat().id(), getCommandList());
+        return new SendMessageRequest(update.message().chat().id(), getCommandList());
     }
 
     private String getCommandList() {

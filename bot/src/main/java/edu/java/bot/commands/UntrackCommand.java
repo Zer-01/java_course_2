@@ -4,11 +4,15 @@ import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
 import edu.java.bot.db.Database;
 import edu.java.bot.validators.URLValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import java.net.URI;
 
+@Component
 public class UntrackCommand implements Command {
     Database database;
 
+    @Autowired
     public UntrackCommand(Database database) {
         this.database = database;
     }
@@ -28,19 +32,19 @@ public class UntrackCommand implements Command {
         long chatId = update.message().chat().id();
         String[] args = update.message().text().split(" ");
         if (args.length != 2) {
-            return SendMessageRequest.newMessageRequest(chatId, "Неверный формат\nДолжно быть: /untrack <URL>");
+            return new SendMessageRequest(chatId, "Неверный формат\nДолжно быть: /untrack <URL>");
         }
 
         URI url = URI.create(args[1]);
         if (!URLValidator.isValidLink(url)) {
-            return SendMessageRequest.newMessageRequest(chatId, "Неверный формат ссылки");
+            return new SendMessageRequest(chatId, "Неверный формат ссылки");
         }
 
         if (!database.isLinkSaved(chatId, url)) {
-            return SendMessageRequest.newMessageRequest(chatId, "Ошибка: ссылка не найдена в списке отслеживаемых");
+            return new SendMessageRequest(chatId, "Ошибка: ссылка не найдена в списке отслеживаемых");
         }
         database.removeLink(chatId, url);
 
-        return SendMessageRequest.newMessageRequest(chatId, "Успешно удалено из списка отслеживаемых ссылок");
+        return new SendMessageRequest(chatId, "Успешно удалено из списка отслеживаемых ссылок");
     }
 }

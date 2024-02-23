@@ -22,9 +22,9 @@ public class BotApp implements Bot {
     CommandProcessor commandProcessor;
 
     @Autowired
-    public BotApp(ApplicationConfig config, InMemBotDB inMemBotDB) {
+    public BotApp(ApplicationConfig config, CommandProcessor commandProcessor) {
         this.bot = new TelegramBot(config.telegramToken());
-        this.commandProcessor = new CommandProcessor(inMemBotDB);
+        this.commandProcessor = commandProcessor;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class BotApp implements Bot {
 
             SendMessageRequest result = commandProcessor.process(update);
             if (result == null) {
-                result = SendMessageRequest.newMessageRequest(update.message().chat().id(), "Неизвестная команда");
+                result = new SendMessageRequest(update.message().chat().id(), "Неизвестная команда");
             }
             execute(result);
         }
