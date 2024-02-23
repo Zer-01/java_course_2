@@ -8,13 +8,12 @@ import edu.java.bot.commands.exceptions.track.LinkAlreadyAddedException;
 import edu.java.bot.commands.exceptions.track.TrackInvalidFormatException;
 import edu.java.bot.commands.exceptions.untrack.LinkNotFoundException;
 import edu.java.bot.commands.exceptions.untrack.UntrackInvalidFormatException;
-import edu.java.bot.db.Database;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CommandProcessor {

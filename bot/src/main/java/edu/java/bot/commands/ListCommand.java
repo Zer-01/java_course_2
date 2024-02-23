@@ -3,10 +3,10 @@ package edu.java.bot.commands;
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
 import edu.java.bot.db.Database;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ListCommand implements Command {

@@ -10,7 +10,6 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import edu.java.bot.commands.Command;
 import edu.java.bot.commands.CommandProcessor;
 import edu.java.bot.configuration.ApplicationConfig;
-import edu.java.bot.db.InMemBotDB;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;

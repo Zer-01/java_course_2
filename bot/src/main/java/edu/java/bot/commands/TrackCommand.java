@@ -7,9 +7,9 @@ import edu.java.bot.commands.exceptions.track.LinkAlreadyAddedException;
 import edu.java.bot.commands.exceptions.track.TrackInvalidFormatException;
 import edu.java.bot.db.Database;
 import edu.java.bot.validators.URLValidator;
+import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.net.URI;
 
 @Component
 public class TrackCommand implements Command {
