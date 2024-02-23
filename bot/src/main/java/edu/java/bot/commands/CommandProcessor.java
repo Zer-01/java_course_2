@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class CommandProcessor {
@@ -22,13 +23,13 @@ public class CommandProcessor {
         }
     }
 
-    public SendMessageRequest process(Update update) {
+    public Optional<SendMessageRequest> process(Update update) {
         String firstWord = update.message().text().split(" ")[0];
         Command command = commands.get(firstWord);
         if (command != null) {
-            return command.handle(update);
+            return Optional.of(command.handle(update));
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 

@@ -8,6 +8,7 @@ import edu.java.bot.commands.CommandProcessor;
 import edu.java.bot.configuration.CPTestConfig;
 import edu.java.bot.db.InMemBotDB;
 import java.net.URI;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,11 +38,13 @@ public class CommandProcessorTest {
         return new Arguments[] {
             Arguments.of("/help", """
                 Список команд:
-                /help - Показать доступные команды
-                /list - Показать список отслеживаемых ссылок
-                /start - Начать диалог
-                /track - Добавить ссылку в отслеживаемые
-                /untrack - Удалить ссылку из отслеживаемых"""),
+                */list* - Показать список отслеживаемых ссылок.
+
+                */track* - Добавить ссылку в отслеживаемые.
+                (формат: /track <URL>)
+
+                */untrack* - Удалить ссылку из отслеживаемых.
+                (формат: /untrack <URL>)"""),
             Arguments.of("/list", "Список отслеживаемых ссылок пуст"),
             Arguments.of("/start", "Здравствуй, пользователь."),
             Arguments.of("/track", "Неверный формат\n" +
@@ -60,19 +63,21 @@ public class CommandProcessorTest {
     void commandsTest(String inMessage, String outMessage) {
         Update update = getMockedUpdate(inMessage);
 
-        String result = commandProcessor.process(update).message();
+        Optional<SendMessageRequest> result = commandProcessor.process(update);
 
-        assertEquals(result, outMessage);
+        assertThat(result)
+            .isNotEmpty();
+        assertEquals(result.get().message(), outMessage);
     }
 
     @Test
     void unknownCommand() {
         Update update = getMockedUpdate("/abc");
 
-        SendMessageRequest result = commandProcessor.process(update);
+        Optional<SendMessageRequest> result = commandProcessor.process(update);
 
         assertThat(result)
-            .isNull();
+            .isEmpty();
     }
 
     @Test
@@ -88,9 +93,11 @@ public class CommandProcessorTest {
             https://testlink.com/link3
             """;
 
-        String result = commandProcessor.process(update).message();
+        Optional<SendMessageRequest> result = commandProcessor.process(update);
 
-        assertEquals(result, expResult);
+        assertThat(result)
+            .isNotEmpty();
+        assertEquals(result.get().message(), expResult);
     }
 
     Update getMockedUpdate(String message) {

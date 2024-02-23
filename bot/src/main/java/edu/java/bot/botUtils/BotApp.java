@@ -13,6 +13,7 @@ import edu.java.bot.configuration.ApplicationConfig;
 import edu.java.bot.db.InMemBotDB;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,11 +42,10 @@ public class BotApp implements Bot {
                 continue;
             }
 
-            SendMessageRequest result = commandProcessor.process(update);
-            if (result == null) {
-                result = new SendMessageRequest(update.message().chat().id(), "Неизвестная команда");
-            }
-            execute(result);
+            Optional<SendMessageRequest> result = commandProcessor.process(update);
+            execute(result.orElse(
+                new SendMessageRequest(update.message().chat().id(), "Неизвестная команда")
+            ));
         }
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }

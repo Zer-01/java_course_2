@@ -17,12 +17,12 @@ public class StartCommand implements Command {
 
     @Override
     public String command() {
-        return CommandsEnum.START.getCommand();
+        return "/start";
     }
 
     @Override
     public String description() {
-        return CommandsEnum.START.getDescription();
+        return "Начать диалог";
     }
 
     @Override

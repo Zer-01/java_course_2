@@ -19,12 +19,12 @@ public class ListCommand implements Command {
 
     @Override
     public String command() {
-        return CommandsEnum.LIST.getCommand();
+        return "/list";
     }
 
     @Override
     public String description() {
-        return CommandsEnum.LIST.getDescription();
+        return "Показать список отслеживаемых ссылок";
     }
 
     @Override

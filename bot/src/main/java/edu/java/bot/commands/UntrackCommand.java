@@ -19,12 +19,12 @@ public class UntrackCommand implements Command {
 
     @Override
     public String command() {
-        return CommandsEnum.UNTRACK.getCommand();
+        return "/untrack";
     }
 
     @Override
     public String description() {
-        return CommandsEnum.UNTRACK.getDescription();
+        return "Удалить ссылку из отслеживаемых";
     }
 
     @Override

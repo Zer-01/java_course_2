@@ -19,12 +19,12 @@ public class TrackCommand implements Command {
 
     @Override
     public String command() {
-        return CommandsEnum.TRACK.getCommand();
+        return "/track";
     }
 
     @Override
     public String description() {
-        return CommandsEnum.TRACK.getDescription();
+        return "Добавить ссылку в отслеживаемые";
     }
 
     @Override

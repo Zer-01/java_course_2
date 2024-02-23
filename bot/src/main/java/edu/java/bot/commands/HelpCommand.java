@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 public class HelpCommand implements Command {
     @Override
     public String command() {
-        return CommandsEnum.HELP.getCommand();
+        return "/help";
     }
 
     @Override
     public String description() {
-        return CommandsEnum.HELP.getDescription();
+        return "Показать доступные команды";
     }
 
     @Override
@@ -22,11 +22,14 @@ public class HelpCommand implements Command {
     }
 
     private String getCommandList() {
-        return "Список команд:\n"
-            + CommandsEnum.HELP.toString() + '\n'
-            + CommandsEnum.LIST.toString() + '\n'
-            + CommandsEnum.START.toString() + '\n'
-            + CommandsEnum.TRACK.toString() + '\n'
-            + CommandsEnum.UNTRACK.toString();
+        return """
+                Список команд:
+                */list* - Показать список отслеживаемых ссылок.
+
+                */track* - Добавить ссылку в отслеживаемые.
+                (формат: /track <URL>)
+
+                */untrack* - Удалить ссылку из отслеживаемых.
+                (формат: /untrack <URL>)""";
     }
 }
