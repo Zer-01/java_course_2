@@ -10,6 +10,7 @@ import java.util.List;
 
 @Component
 public class ListCommand implements Command {
+    private final static String LINKS_LIST_EMPTY_MESSAGE = "Список отслеживаемых ссылок пуст";
     Database database;
 
     @Autowired
@@ -34,7 +35,7 @@ public class ListCommand implements Command {
         String result;
 
         if (linksList.isEmpty()) {
-            result = "Список отслеживаемых ссылок пуст";
+            result = LINKS_LIST_EMPTY_MESSAGE;
         } else {
             result = urlsListToString(linksList);
         }

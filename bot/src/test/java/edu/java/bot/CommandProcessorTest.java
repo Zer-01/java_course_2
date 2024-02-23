@@ -47,10 +47,8 @@ public class CommandProcessorTest {
                 (формат: /untrack <URL>)"""),
             Arguments.of("/list", "Список отслеживаемых ссылок пуст"),
             Arguments.of("/start", "Здравствуй, пользователь."),
-            Arguments.of("/track", "Неверный формат\n" +
-                "Должно быть: /track <URL>"),
-            Arguments.of("/untrack", "Неверный формат\n" +
-                "Должно быть: /untrack <URL>"),
+            Arguments.of("/track", "Неверный формат\nДолжно быть: /track <URL>"),
+            Arguments.of("/untrack", "Неверный формат\nДолжно быть: /untrack <URL>"),
             Arguments.of("/track abc", "Неверный формат ссылки"),
             Arguments.of("/untrack def", "Неверный формат ссылки"),
             Arguments.of("/track https://test.com/link", "Успешно добавлено в список отслеживаемых ссылок"),
