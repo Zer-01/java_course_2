@@ -1,8 +1,12 @@
 app:
   scheduler:
     enable: true
-    interval: 10s
-    force-check-delay: 10s
+    interval: 7500
+    force-check-delay: 7500
+
+urls:
+  github: https://api.github.com
+  stackoverflow: https://api.stackexchange.com
 
 spring:
   application:
