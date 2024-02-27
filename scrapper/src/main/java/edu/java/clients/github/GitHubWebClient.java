@@ -1,30 +1,30 @@
-package edu.java.clients.stackoverflow;
+package edu.java.clients.github;
 
-import edu.java.dto.QuestionResponse;
+import edu.java.dto.RepositoryResponse;
 import java.util.Optional;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-public class SOWebClient implements StackoverflowClient {
+public class GitHubWebClient implements GitHubClient {
     private final WebClient webClient;
 
-    public SOWebClient(String baseUrl) {
+    public GitHubWebClient(String baseUrl) {
         webClient = WebClient.builder()
-            .baseUrl(baseUrl == null ? "https://api.stackexchange.com" : baseUrl)
+            .baseUrl(baseUrl == null ? "https://api.github.com" : baseUrl)
             .build();
     }
 
-    public SOWebClient() {
+    public GitHubWebClient() {
         this(null);
     }
 
     @Override
-    public Optional<QuestionResponse> fetchLastActivity(long questionId) {
+    public Optional<RepositoryResponse> fetchLastActivity(String owner, String repoName) {
         try {
             return webClient.get()
-                .uri("/questions/{id}?site=stackoverflow", questionId)
+                .uri("/repos/{owner}/{repo}", owner, repoName)
                 .retrieve()
-                .bodyToMono(QuestionResponse.class)
+                .bodyToMono(RepositoryResponse.class)
                 .blockOptional();
         } catch (WebClientResponseException e) {
             return Optional.empty();

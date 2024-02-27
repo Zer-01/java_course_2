@@ -2,7 +2,7 @@ package edu.java.scrapper.clients;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import edu.java.clients.stackoverflow.SOWebClient;
+import edu.java.clients.stackoverflow.StackOverflowWebClient;
 import edu.java.dto.QuestionResponse;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -28,9 +28,9 @@ public class StackoverflowClientTest {
 
         stubFor(WireMock.get(String.format("/questions/%d?site=stackoverflow", expId))
             .willReturn(ok().withHeader("content-type", "application/json").withBody(body)));
-        SOWebClient soWebClient = new SOWebClient("http://localhost:8080");
+        StackOverflowWebClient stackOverflowWebClient = new StackOverflowWebClient("http://localhost:8080");
 
-        Optional<QuestionResponse> response = soWebClient.fetchLastActivity(expId);
+        Optional<QuestionResponse> response = stackOverflowWebClient.fetchLastActivity(expId);
 
         assertThat(response)
             .isNotEmpty();
@@ -47,9 +47,9 @@ public class StackoverflowClientTest {
 
         stubFor(WireMock.get(String.format("/questions/%d?site=stackoverflow", id))
             .willReturn(ok().withHeader("content-type", "application/json").withBody(body)));
-        SOWebClient soWebClient = new SOWebClient("http://localhost:8080");
+        StackOverflowWebClient stackOverflowWebClient = new StackOverflowWebClient("http://localhost:8080");
 
-        Optional<QuestionResponse> response = soWebClient.fetchLastActivity(id);
+        Optional<QuestionResponse> response = stackOverflowWebClient.fetchLastActivity(id);
 
         assertThat(response)
             .isNotEmpty();

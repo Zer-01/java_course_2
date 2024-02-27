@@ -1,19 +1,19 @@
 package edu.java.configuration;
 
-import edu.java.clients.github.GHWebClient;
-import edu.java.clients.stackoverflow.SOWebClient;
+import edu.java.clients.github.GitHubWebClient;
+import edu.java.clients.stackoverflow.StackOverflowWebClient;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 @ConfigurationProperties
 public class ClientConfiguration {
     @Bean
-    public GHWebClient ghWebClient(BaseUrlsConfig baseUrlsConfig) {
-        return new GHWebClient(baseUrlsConfig.github());
+    public GitHubWebClient ghWebClient(BaseUrlsConfig baseUrlsConfig) {
+        return new GitHubWebClient(baseUrlsConfig.github());
     }
 
     @Bean
-    public SOWebClient soWebClient(BaseUrlsConfig baseUrlsConfig) {
-        return new SOWebClient(baseUrlsConfig.stackoverflow());
+    public StackOverflowWebClient soWebClient(BaseUrlsConfig baseUrlsConfig) {
+        return new StackOverflowWebClient(baseUrlsConfig.stackoverflow());
     }
 }
