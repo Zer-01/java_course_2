@@ -2,10 +2,23 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HelpCommand implements Command {
+    String response;
+
+    @Autowired
+    public HelpCommand(List<Command> commandList) {
+        StringBuilder builder = new StringBuilder("Список команд:\n");
+        for (Command command : commandList) {
+            builder.append('*').append(command.command()).append("* - ").append(command.description()).append('\n');
+        }
+        response = builder.toString();
+    }
+
     @Override
     public String command() {
         return "/help";
@@ -22,14 +35,6 @@ public class HelpCommand implements Command {
     }
 
     private String getCommandList() {
-        return """
-                Список команд:
-                */list* - Показать список отслеживаемых ссылок.
-
-                */track* - Добавить ссылку в отслеживаемые.
-                (формат: /track <URL>)
-
-                */untrack* - Удалить ссылку из отслеживаемых.
-                (формат: /untrack <URL>)""";
+        return response;
     }
 }
