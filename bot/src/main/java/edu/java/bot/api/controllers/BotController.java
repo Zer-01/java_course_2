@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequiredArgsConstructor
 @RestController
-public class UpdateController {
+public class BotController {
     @PostMapping("/updates")
     public void linkUpdate(@Validated @RequestBody LinkUpdateRequest request) {
         log.info(request.toString());
