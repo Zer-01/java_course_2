@@ -15,7 +15,7 @@ public class BotApiExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ApiErrorResponse illegalRequest(MethodArgumentNotValidException e) {
         return new ApiErrorResponse(
-            "Аргументы не соответствуют условиям",
+            "Illegal arguments",
             e.getStatusCode().toString(),
             e.getClass().getSimpleName(),
             e.getMessage(),
@@ -29,7 +29,7 @@ public class BotApiExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ApiErrorResponse messageNotReadable(HttpMessageNotReadableException e) {
         return new ApiErrorResponse(
-            "Ошибка чтения запроса",
+            "Reading request error",
             HttpStatus.BAD_REQUEST.toString(),
             e.getClass().getSimpleName(),
             e.getMessage(),

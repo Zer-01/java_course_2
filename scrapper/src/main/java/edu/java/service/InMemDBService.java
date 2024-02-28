@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 
+//заглушка на время отсутствия бд,
+// после появления разделится на классы для работы со ссылками и чатами
 @Component
 public class InMemDBService implements UserService {
-    private final static String CHAT_NOT_FOUND = "Чат не найден";
+    private final static String CHAT_NOT_FOUND = "Chat not found";
 
     Map<Long, List<URI>> db;
 
@@ -25,7 +27,7 @@ public class InMemDBService implements UserService {
     @Override
     public void newChat(long id) {
         if (db.containsKey(id)) {
-            throw new ChatAlreadyExistsException("Чат уже зарегистрирован");
+            throw new ChatAlreadyExistsException("Chat is already registered");
         }
         db.put(id, new ArrayList<>());
     }
@@ -53,7 +55,7 @@ public class InMemDBService implements UserService {
         }
 
         if (db.get(chatId).contains(link)) {
-            throw new LinkAlreadyTrackingException("Ссылка уже отслеживается");
+            throw new LinkAlreadyTrackingException("Link already tracking");
         }
         db.get(chatId).add(link);
         return new LinkResponse((long) link.hashCode(), link);
@@ -66,7 +68,7 @@ public class InMemDBService implements UserService {
         }
 
         if (!db.get(chatId).remove(link)) {
-            throw new LinkNotFoundException("Ссылка не найдена");
+            throw new LinkNotFoundException("Link not found");
         }
         return new LinkResponse((long) link.hashCode(), link);
     }
