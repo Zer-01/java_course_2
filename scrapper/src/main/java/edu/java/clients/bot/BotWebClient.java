@@ -3,10 +3,10 @@ package edu.java.clients.bot;
 import edu.java.api.exceptions.ApiErrorException;
 import edu.java.api.models.ApiErrorResponse;
 import edu.java.api.models.LinkUpdateRequest;
+import java.time.Duration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import java.time.Duration;
 
 public class BotWebClient implements BotClient {
     WebClient webClient;

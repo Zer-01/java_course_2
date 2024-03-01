@@ -28,7 +28,7 @@ public class LinksController {
 
         ListLinksResponse response = new ListLinksResponse(
             linksList.stream()
-                .map(link -> new LinkResponse((long) link.hashCode(), link))//hash - пока нет бд
+                .map(link -> new LinkResponse((long) link.hashCode(), link))
                 .toList(),
             linksList.size()
         );

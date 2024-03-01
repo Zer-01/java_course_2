@@ -22,14 +22,11 @@ public class BotClientTest {
 
     @Test
     void normalResponseTest(WireMockRuntimeInfo wireMockRuntimeInfo) {
-
         stubFor(WireMock.post("/updates")
             .willReturn(ok()));
         BotWebClient botWebClient = new BotWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
 
-        assertDoesNotThrow(() -> {
-            botWebClient.sendUpdate(requestStub);
-        });
+        assertDoesNotThrow(() -> botWebClient.sendUpdate(requestStub));
     }
 
     @Test
@@ -49,8 +46,6 @@ public class BotClientTest {
         BotWebClient botWebClient = new BotWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
 
         assertThatExceptionOfType(ApiErrorException.class)
-            .isThrownBy(() -> {
-                botWebClient.sendUpdate(requestStub);
-            });
+            .isThrownBy(() -> botWebClient.sendUpdate(requestStub));
     }
 }
