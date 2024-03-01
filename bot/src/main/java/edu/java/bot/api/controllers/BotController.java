@@ -1,6 +1,6 @@
 package edu.java.bot.api.controllers;
 
-import edu.java.bot.api.models.LinkUpdateRequest;
+import edu.java.api.models.LinkUpdateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

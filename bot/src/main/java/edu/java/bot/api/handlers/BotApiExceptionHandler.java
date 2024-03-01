@@ -1,6 +1,6 @@
 package edu.java.bot.api.handlers;
 
-import edu.java.bot.api.models.ApiErrorResponse;
+import edu.java.api.models.ApiErrorResponse;
 import java.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
