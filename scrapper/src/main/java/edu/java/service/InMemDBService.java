@@ -43,7 +43,7 @@ public class InMemDBService implements UserService {
     @Override
     public List<URI> getAllLinks(long chatId) {
         if (!db.containsKey(chatId)) {
-            throw new IllegalArgumentException(CHAT_NOT_FOUND);
+            throw new ChatNotFoundException(CHAT_NOT_FOUND);
         }
         return db.get(chatId);
     }
@@ -51,7 +51,7 @@ public class InMemDBService implements UserService {
     @Override
     public LinkResponse addLink(long chatId, URI link) {
         if (!db.containsKey(chatId)) {
-            throw new IllegalArgumentException(CHAT_NOT_FOUND);
+            throw new ChatNotFoundException(CHAT_NOT_FOUND);
         }
 
         if (db.get(chatId).contains(link)) {
@@ -64,7 +64,7 @@ public class InMemDBService implements UserService {
     @Override
     public LinkResponse deleteLink(long chatId, URI link) {
         if (!db.containsKey(chatId)) {
-            throw new IllegalArgumentException(CHAT_NOT_FOUND);
+            throw new ChatNotFoundException(CHAT_NOT_FOUND);
         }
 
         if (!db.get(chatId).remove(link)) {
