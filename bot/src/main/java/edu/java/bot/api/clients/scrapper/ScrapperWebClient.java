@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-public class ScrapperWebClient {
+public class ScrapperWebClient implements ScrapperClient {
     WebClient webClient;
     private final static long NUMBER_OF_ATTEMPTS = 5;
     private final static long TIMEOUT_SECONDS = 5;
