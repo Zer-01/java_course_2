@@ -8,9 +8,9 @@ import java.net.URI;
 import java.util.List;
 
 public record LinkUpdateRequest(
-    @NotNull @JsonProperty("id") Long id,
-    @NotNull @JsonProperty("url") URI url,
-    @NotBlank @JsonProperty("description") String description,
+    @NotNull Long id,
+    @NotNull URI url,
+    @NotBlank String description,
     @NotEmpty @JsonProperty("tgChatIds") List<Long> chatIds
 ) {
 }

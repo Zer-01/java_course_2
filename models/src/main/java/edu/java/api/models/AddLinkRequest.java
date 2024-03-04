@@ -5,6 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 
 public record AddLinkRequest(
-    @NotNull @JsonProperty("link") URI link
+    @NotNull URI link
 ) {
 }
