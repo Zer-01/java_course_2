@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @WireMockTest
 public class ScrapperClientTest {
-    String errorResponseStub = """
+    static final String errorResponseStub = """
         {
           "description": "error",
           "code": "400",
