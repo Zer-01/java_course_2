@@ -1,4 +1,4 @@
-package edu.java.api.exceptions;
+package edu.java.exceptions.api;
 
 import edu.java.api.models.ApiErrorResponse;
 import lombok.Getter;

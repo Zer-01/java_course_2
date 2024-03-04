@@ -1,4 +1,4 @@
-package edu.java.bot.commands.exceptions;
+package edu.java.bot.exceptions.commands;
 
 public class CommandException extends RuntimeException {
 }

@@ -1,9 +1,9 @@
 package edu.java.service;
 
-import edu.java.api.exceptions.ChatAlreadyExistsException;
-import edu.java.api.exceptions.ChatNotFoundException;
-import edu.java.api.exceptions.LinkAlreadyTrackingException;
-import edu.java.api.exceptions.LinkNotFoundException;
+import edu.java.exceptions.api.ChatAlreadyExistsException;
+import edu.java.exceptions.api.ChatNotFoundException;
+import edu.java.exceptions.api.LinkAlreadyTrackingException;
+import edu.java.exceptions.api.LinkNotFoundException;
 import edu.java.api.models.LinkResponse;
 import java.net.URI;
 import java.util.ArrayList;

@@ -2,12 +2,12 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
-import edu.java.bot.commands.exceptions.CommandException;
-import edu.java.bot.commands.exceptions.InvalidLinkException;
-import edu.java.bot.commands.exceptions.track.LinkAlreadyAddedException;
-import edu.java.bot.commands.exceptions.track.TrackInvalidFormatException;
-import edu.java.bot.commands.exceptions.untrack.LinkNotFoundException;
-import edu.java.bot.commands.exceptions.untrack.UntrackInvalidFormatException;
+import edu.java.bot.exceptions.commands.CommandException;
+import edu.java.bot.exceptions.commands.InvalidLinkException;
+import edu.java.bot.exceptions.commands.track.LinkAlreadyAddedException;
+import edu.java.bot.exceptions.commands.track.TrackInvalidFormatException;
+import edu.java.bot.exceptions.commands.untrack.LinkNotFoundException;
+import edu.java.bot.exceptions.commands.untrack.UntrackInvalidFormatException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

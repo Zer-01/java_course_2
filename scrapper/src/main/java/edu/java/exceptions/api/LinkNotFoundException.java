@@ -1,4 +1,4 @@
-package edu.java.api.exceptions;
+package edu.java.exceptions.api;
 
 public class LinkNotFoundException extends RuntimeException {
     public LinkNotFoundException() {

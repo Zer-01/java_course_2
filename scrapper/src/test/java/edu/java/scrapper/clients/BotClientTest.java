@@ -3,7 +3,7 @@ package edu.java.scrapper.clients;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import edu.java.api.exceptions.ApiErrorException;
+import edu.java.exceptions.api.ApiErrorException;
 import edu.java.api.models.LinkUpdateRequest;
 import edu.java.clients.bot.BotWebClient;
 import java.net.URI;

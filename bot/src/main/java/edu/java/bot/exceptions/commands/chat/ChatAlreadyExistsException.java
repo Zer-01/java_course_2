@@ -1,4 +1,4 @@
-package edu.java.bot.commands.exceptions.chat;
+package edu.java.bot.exceptions.commands.chat;
 
 public class ChatAlreadyExistsException extends RuntimeException{
 }

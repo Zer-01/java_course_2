@@ -1,6 +1,6 @@
 package edu.java.clients.bot;
 
-import edu.java.api.exceptions.ApiErrorException;
+import edu.java.exceptions.api.ApiErrorException;
 import edu.java.api.models.ApiErrorResponse;
 import edu.java.api.models.LinkUpdateRequest;
 import java.time.Duration;
