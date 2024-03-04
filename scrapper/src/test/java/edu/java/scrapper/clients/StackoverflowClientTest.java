@@ -30,7 +30,7 @@ public class StackoverflowClientTest {
         stubFor(WireMock.get(String.format("/questions/%d?site=stackoverflow", expId))
             .willReturn(ok().withHeader("content-type", "application/json").withBody(body)));
         StackOverflowWebClient stackOverflowWebClient =
-            new StackOverflowWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+            new StackOverflowWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         Optional<QuestionResponse> response = stackOverflowWebClient.fetchLastActivity(expId);
 
@@ -50,7 +50,7 @@ public class StackoverflowClientTest {
         stubFor(WireMock.get(String.format("/questions/%d?site=stackoverflow", id))
             .willReturn(ok().withHeader("content-type", "application/json").withBody(body)));
         StackOverflowWebClient stackOverflowWebClient =
-            new StackOverflowWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+            new StackOverflowWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         Optional<QuestionResponse> response = stackOverflowWebClient.fetchLastActivity(id);
 

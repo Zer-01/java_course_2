@@ -45,7 +45,7 @@ public class ScrapperClientTest {
         stubFor(WireMock.post(String.format("/tg-chat/%d", chatId))
             .willReturn(ok()));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertDoesNotThrow(() -> scrapperWebClient.newChat(chatId));
     }
@@ -57,7 +57,7 @@ public class ScrapperClientTest {
             .willReturn(aResponse().withStatus(409).withHeader("content-type", "application/json")
                 .withBody(errorResponseStub)));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertThatExceptionOfType(ChatAlreadyExistsException.class)
             .isThrownBy(() -> scrapperWebClient.newChat(chatId));
@@ -69,7 +69,7 @@ public class ScrapperClientTest {
         stubFor(WireMock.delete(String.format("/tg-chat/%d", chatId))
             .willReturn(ok()));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertDoesNotThrow(() -> scrapperWebClient.deleteChat(chatId));
     }
@@ -81,7 +81,7 @@ public class ScrapperClientTest {
             .willReturn(notFound().withHeader("content-type", "application/json")
                 .withBody(errorResponseStub)));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertThatExceptionOfType(ChatNotFoundException.class)
             .isThrownBy(() -> scrapperWebClient.deleteChat(chatId));
@@ -109,7 +109,7 @@ public class ScrapperClientTest {
         stubFor(WireMock.get("/links").withHeader("Tg-Chat-Id", equalTo("1"))
             .willReturn(ok().withHeader("content-type", "application/json")
                 .withBody(body)));
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         Optional<ListLinksResponse> response = scrapperWebClient.getAllLinks(chatId);
 
@@ -125,7 +125,7 @@ public class ScrapperClientTest {
             .willReturn(notFound().withHeader("content-type", "application/json")
                 .withBody(errorResponseStub)));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertThatExceptionOfType(ChatNotFoundException.class)
             .isThrownBy(() -> scrapperWebClient.getAllLinks(chatId));
@@ -144,7 +144,7 @@ public class ScrapperClientTest {
         stubFor(WireMock.post("/links").withHeader("Tg-Chat-Id", equalTo("1"))
             .willReturn(ok().withHeader("content-type", "application/json")
                 .withBody(body)));
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
         AddLinkRequest request = new AddLinkRequest(URI.create("http://link1.com/a"));
 
         Optional<LinkResponse> response = scrapperWebClient.addLink(chatId, request);
@@ -162,7 +162,7 @@ public class ScrapperClientTest {
                 .withBody(errorResponseStub)));
         AddLinkRequest request = new AddLinkRequest(URI.create("http://link1.com/a"));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertThatExceptionOfType(ChatNotFoundException.class)
             .isThrownBy(() -> scrapperWebClient.addLink(chatId, request));
@@ -176,7 +176,7 @@ public class ScrapperClientTest {
                 .withBody(errorResponseStub)));
         AddLinkRequest request = new AddLinkRequest(URI.create("http://link1.com/a"));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertThatExceptionOfType(LinkAlreadyAddedException.class)
             .isThrownBy(() -> scrapperWebClient.addLink(chatId, request));
@@ -195,7 +195,7 @@ public class ScrapperClientTest {
         stubFor(WireMock.delete("/links").withHeader("Tg-Chat-Id", equalTo("1"))
             .willReturn(ok().withHeader("content-type", "application/json")
                 .withBody(body)));
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
         AddLinkRequest request = new AddLinkRequest(URI.create("http://link1.com/a"));
 
         Optional<LinkResponse> response = scrapperWebClient.deleteLink(chatId, request);
@@ -213,7 +213,7 @@ public class ScrapperClientTest {
                 .withBody(errorResponseStub)));
         AddLinkRequest request = new AddLinkRequest(URI.create("http://link1.com/a"));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertThatExceptionOfType(ChatNotFoundException.class)
             .isThrownBy(() -> scrapperWebClient.deleteLink(chatId, request));
@@ -227,7 +227,7 @@ public class ScrapperClientTest {
                 .withBody(errorResponseStub)));
         AddLinkRequest request = new AddLinkRequest(URI.create("http://link1.com/a"));
 
-        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         assertThatExceptionOfType(LinkNotFoundException.class)
             .isThrownBy(() -> scrapperWebClient.deleteLink(chatId, request));

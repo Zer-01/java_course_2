@@ -25,7 +25,7 @@ public class GitHubClientTest {
         String body = "{\"id\": 123456, \"updated_at\": \"2024-02-25T14:50:29Z\", \"node_id\": \"rand_str\"}";
         stubFor(WireMock.get("/repos/owner/repo")
             .willReturn(ok().withHeader("content-type", "application/json").withBody(body)));
-        GitHubWebClient githubClient = new GitHubWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        GitHubWebClient githubClient = new GitHubWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         Optional<RepositoryResponse> response = githubClient.fetchLastActivity("owner", "repo");
 
@@ -40,7 +40,7 @@ public class GitHubClientTest {
         String body = "{\"message\": \"Not Found\"}";
         stubFor(WireMock.get("/repos/owner/unknown")
             .willReturn(notFound().withHeader("content-type", "application/json").withBody(body)));
-        GitHubWebClient githubClient = new GitHubWebClient(wireMockRuntimeInfo.getHttpBaseUrl());
+        GitHubWebClient githubClient = new GitHubWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
 
         Optional<RepositoryResponse> response = githubClient.fetchLastActivity("owner", "unknown");
 

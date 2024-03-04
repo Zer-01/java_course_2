@@ -1,8 +1,12 @@
 app:
   telegram-token: ${TELEGRAM_TOKEN}
 
-urls:
-  scrapper: http://localhost:8080
+clients:
+  connection:
+    attempts: 5
+    timeout: 5
+  urls:
+    scrapper: http://localhost:8080
 
 spring:
   application:

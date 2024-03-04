@@ -4,10 +4,14 @@ app:
     interval: 7500
     force-check-delay: 7500
 
-urls:
-  github: https://api.github.com
-  stackoverflow: https://api.stackexchange.com
-  bot: http://localhost:8090
+clients:
+  connection:
+    attempts: 5
+    timeout: 5
+  urls:
+    github: https://api.github.com
+    stackoverflow: https://api.stackexchange.com
+    bot: http://localhost:8090
 
 spring:
   application:

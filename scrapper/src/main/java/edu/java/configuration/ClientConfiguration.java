@@ -9,17 +9,17 @@ import org.springframework.context.annotation.Bean;
 @ConfigurationProperties
 public class ClientConfiguration {
     @Bean
-    public GitHubWebClient ghWebClient(BaseUrlsConfig baseUrlsConfig) {
-        return new GitHubWebClient(baseUrlsConfig.github());
+    public GitHubWebClient ghWebClient(WebClientsConfig webClientsConfig) {
+        return new GitHubWebClient(webClientsConfig);
     }
 
     @Bean
-    public StackOverflowWebClient soWebClient(BaseUrlsConfig baseUrlsConfig) {
-        return new StackOverflowWebClient(baseUrlsConfig.stackoverflow());
+    public StackOverflowWebClient soWebClient(WebClientsConfig webClientsConfig) {
+        return new StackOverflowWebClient(webClientsConfig);
     }
 
     @Bean
-    public BotWebClient botWebClient(BaseUrlsConfig baseUrlsConfig) {
-        return new BotWebClient(baseUrlsConfig.bot());
+    public BotWebClient botWebClient(WebClientsConfig webClientsConfig) {
+        return new BotWebClient(webClientsConfig);
     }
 }

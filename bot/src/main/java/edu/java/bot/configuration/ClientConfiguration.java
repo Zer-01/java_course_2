@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 @ConfigurationProperties
 public class ClientConfiguration {
     @Bean
-    public ScrapperWebClient scrapperWebClient(BaseUrlsConfig baseUrlsConfig) {
-        return new ScrapperWebClient(baseUrlsConfig.scrapper());
+    public ScrapperWebClient scrapperWebClient(WebClientsConfig webClientsConfig) {
+        return new ScrapperWebClient(webClientsConfig);
     }
 }

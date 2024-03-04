@@ -1,7 +1,9 @@
 package edu.java.clients.stackoverflow;
 
+import edu.java.configuration.WebClientsConfig;
 import edu.java.dto.QuestionResponse;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,19 +11,21 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 @Slf4j
 public class StackOverflowWebClient implements StackoverflowClient {
-    private final static String DEFAULT_BASE_URL = "https://api.stackexchange.com";
     private final WebClient webClient;
-    private final static long NUMBER_OF_ATTEMPTS = 5;
-    private final static long TIMEOUT_SECONDS = 5;
+    private final long numberOfAttempts;
+    private final long timeoutSeconds;
 
-    public StackOverflowWebClient(String baseUrl) {
+    public StackOverflowWebClient(String baseUrl, long attempts, long timeout) {
+        Objects.requireNonNull(baseUrl, "Base Url cannot be null");
         webClient = WebClient.builder()
             .baseUrl(baseUrl)
             .build();
+        timeoutSeconds = timeout;
+        numberOfAttempts = attempts;
     }
 
-    public StackOverflowWebClient() {
-        this(DEFAULT_BASE_URL);
+    public StackOverflowWebClient(WebClientsConfig config) {
+        this(config.urls().stackoverflow(), config.connection().attempts(), config.connection().timeout());
     }
 
     @Override
@@ -31,8 +35,8 @@ public class StackOverflowWebClient implements StackoverflowClient {
                 .uri("/questions/{id}?site=stackoverflow", questionId)
                 .retrieve()
                 .bodyToMono(QuestionResponse.class)
-                .timeout(Duration.ofSeconds(TIMEOUT_SECONDS))
-                .retry(NUMBER_OF_ATTEMPTS)
+                .timeout(Duration.ofSeconds(timeoutSeconds))
+                .retry(numberOfAttempts)
                 .blockOptional();
         } catch (WebClientResponseException e) {
             log.error("StackOverflow client error: " + e.getMessage());
