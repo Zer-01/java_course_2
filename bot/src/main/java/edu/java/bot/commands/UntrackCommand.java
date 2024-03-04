@@ -2,10 +2,10 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
+import edu.java.bot.db.Database;
 import edu.java.bot.exceptions.commands.InvalidLinkException;
 import edu.java.bot.exceptions.commands.untrack.LinkNotFoundException;
 import edu.java.bot.exceptions.commands.untrack.UntrackInvalidFormatException;
-import edu.java.bot.db.Database;
 import edu.java.bot.validators.URLValidator;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;

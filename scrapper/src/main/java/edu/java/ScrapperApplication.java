@@ -1,8 +1,8 @@
 package edu.java;
 
 import edu.java.configuration.ApplicationConfig;
-import edu.java.configuration.WebClientsConfig;
 import edu.java.configuration.ClientConfiguration;
+import edu.java.configuration.WebClientsConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

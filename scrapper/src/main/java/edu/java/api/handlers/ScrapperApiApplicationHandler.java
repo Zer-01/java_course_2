@@ -1,10 +1,10 @@
 package edu.java.api.handlers;
 
+import edu.java.api.models.ApiErrorResponse;
 import edu.java.exceptions.api.ChatAlreadyExistsException;
 import edu.java.exceptions.api.ChatNotFoundException;
 import edu.java.exceptions.api.LinkAlreadyTrackingException;
 import edu.java.exceptions.api.LinkNotFoundException;
-import edu.java.api.models.ApiErrorResponse;
 import java.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;

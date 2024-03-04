@@ -1,8 +1,8 @@
 package edu.java.bot;
 
 import edu.java.bot.configuration.ApplicationConfig;
-import edu.java.bot.configuration.WebClientsConfig;
 import edu.java.bot.configuration.ClientConfiguration;
+import edu.java.bot.configuration.WebClientsConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
