@@ -1,5 +1,19 @@
 package edu.java.scrapper;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import liquibase.Contexts;
+import liquibase.LabelExpression;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
+import liquibase.resource.DirectoryResourceAccessor;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
@@ -21,7 +35,17 @@ public abstract class IntegrationTest {
     }
 
     private static void runMigrations(JdbcDatabaseContainer<?> c) {
-        // ...
+        try (Connection connection = DriverManager.getConnection(c.getJdbcUrl(), c.getUsername(), c.getPassword())) {
+            Database database =
+                DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+
+            Path changelogDir = new File("").toPath().toAbsolutePath().getParent().resolve("migrations");
+
+            Liquibase liquibase = new Liquibase("master.xml", new DirectoryResourceAccessor(changelogDir), database);
+            liquibase.update(new Contexts(), new LabelExpression());
+        } catch (SQLException | LiquibaseException | FileNotFoundException e) {
+            throw new RuntimeException("migration fail", e);
+        }
     }
 
     @DynamicPropertySource
