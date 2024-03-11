@@ -15,7 +15,7 @@ public class DatabaseTest extends IntegrationTest {
 
     @Test
     void creatingChatsTableCheck() throws SQLException {
-        String query = "Select * from chats";
+        String query = "Select * from chat";
 
         ResultSetMetaData result = connection.createStatement().executeQuery(query).getMetaData();
 
@@ -25,18 +25,18 @@ public class DatabaseTest extends IntegrationTest {
 
     @Test
     void creatingLinksTableCheck() throws SQLException {
-        String query = "Select * from links";
+        String query = "Select * from link";
 
         ResultSetMetaData result = connection.createStatement().executeQuery(query).getMetaData();
 
         assertEquals(result.getColumnName(1), "id");
         assertEquals(result.getColumnName(2), "url");
-        assertEquals(result.getColumnName(3), "last_update");
+        assertEquals(result.getColumnName(3), "last_modified_date");
     }
 
     @Test
     void creatingChatsLinksTableCheck() throws SQLException {
-        String query = "Select * from chats_links";
+        String query = "Select * from chat_link";
 
         ResultSetMetaData result = connection.createStatement().executeQuery(query).getMetaData();
 
