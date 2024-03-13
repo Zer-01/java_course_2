@@ -29,7 +29,7 @@ public class JdbcChatTest extends IntegrationTest {
     @Transactional
     @Rollback
     void emptyTest() {
-        assertEquals(chatRepository.findAll().size(), 0);
+        assertEquals(0, chatRepository.findAll().size());
     }
 
     @Test
@@ -37,7 +37,6 @@ public class JdbcChatTest extends IntegrationTest {
     @Rollback
     void addTest() {
         Long chatId = 10L;
-        OffsetDateTime date = OffsetDateTime.now();
 
         chatRepository.add(new Chat(chatId, null));
         Long resultId = jdbcTemplate.queryForObject("SELECT id FROM chat", Long.class);
@@ -71,8 +70,8 @@ public class JdbcChatTest extends IntegrationTest {
 
         assertThat(result)
             .isNotEmpty();
-        assertEquals(result.get().id(), expId);
-        assertThat(result.get().createdAt())
+        assertEquals(result.get().getId(), expId);
+        assertThat(result.get().getCreatedAt())
             .isNotNull();
     }
 
@@ -104,7 +103,7 @@ public class JdbcChatTest extends IntegrationTest {
             .hasSize(expResult.size());
         assertThat(result)
             .allMatch(chat -> expResult.stream().anyMatch(
-                expChat -> chat.id().equals(expChat.id())
+                expChat -> chat.getId().equals(expChat.getId())
             ));
     }
 

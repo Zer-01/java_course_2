@@ -28,7 +28,7 @@ public class JdbcChatRepository implements ChatRepository {
 
     @Override
     public void add(Chat entity) {
-        jdbcTemplate.update(ADD_QUERY, entity.id());
+        jdbcTemplate.update(ADD_QUERY, entity.getId());
     }
 
     @Override

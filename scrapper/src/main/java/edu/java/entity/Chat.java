@@ -1,6 +1,14 @@
 package edu.java.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.OffsetDateTime;
 
-public record Chat(Long id, OffsetDateTime createdAt) {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Chat {
+    private Long id;
+    private OffsetDateTime createdAt;
 }
