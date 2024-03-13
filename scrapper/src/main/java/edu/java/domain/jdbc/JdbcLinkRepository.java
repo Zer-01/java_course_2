@@ -28,11 +28,11 @@ public class JdbcLinkRepository implements LinkRepository {
           INSERT INTO link (url)
           VALUES (?)
           ON CONFLICT (url) DO NOTHING
-          RETURNING id, url, last_modified_date
+          RETURNING id, url, last_modified_date, last_check_date
         )
-        SELECT id, url, last_modified_date FROM insert
+        SELECT id, url, last_modified_date, last_check_date FROM insert
         UNION ALL
-        SELECT id, url, last_modified_date FROM link
+        SELECT id, url, last_modified_date, last_check_date FROM link
             WHERE url = ? AND NOT EXISTS (SELECT 1 FROM insert);
         """;
     private final JdbcTemplate jdbcTemplate;
@@ -40,7 +40,8 @@ public class JdbcLinkRepository implements LinkRepository {
     public final static RowMapper<Link> LINK_MAPPER = (ResultSet resultSet, int rowNum) -> new Link(
         resultSet.getLong("id"),
         URI.create(resultSet.getString("url")),
-        resultSet.getObject("last_modified_date", OffsetDateTime.class)
+        resultSet.getObject("last_modified_date", OffsetDateTime.class),
+        resultSet.getObject("last_check_date", OffsetDateTime.class)
     );
 
     @Override

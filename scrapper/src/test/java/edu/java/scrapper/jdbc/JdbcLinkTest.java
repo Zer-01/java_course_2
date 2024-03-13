@@ -36,7 +36,7 @@ public class JdbcLinkTest extends IntegrationTest {
     @Rollback
     void addTest() {
         URI link = URI.create("https://test1.com");
-        Link addedLink = new Link(null, link, null);
+        Link addedLink = new Link(link);
 
         linkRepository.add(addedLink);
         URI resultLink = jdbcTemplate.queryForObject("SELECT url FROM link WHERE id = ?", URI.class, addedLink.getId());
@@ -57,7 +57,7 @@ public class JdbcLinkTest extends IntegrationTest {
     @Rollback
     void removeTest() {
         URI link = URI.create("https://test1.com");
-        Link addedLink = new Link(null, link, null);
+        Link addedLink = new Link(link);
 
         linkRepository.add(addedLink);
         linkRepository.remove(addedLink.getId());
@@ -71,8 +71,8 @@ public class JdbcLinkTest extends IntegrationTest {
     void findByIdTest() {
         URI link = URI.create("https://test1.com");
         URI link2 = URI.create("https://test2.com");
-        Link addedLink = new Link(null, link, null);
-        Link addedLink2 = new Link(null, link2, null);
+        Link addedLink = new Link(link);
+        Link addedLink2 = new Link(link2);
         linkRepository.add(addedLink);
         linkRepository.add(addedLink2);
 
@@ -90,7 +90,7 @@ public class JdbcLinkTest extends IntegrationTest {
     @Rollback
     void findByIdNullTest() {
         URI link = URI.create("https://test1.com");
-        Link addedLink = new Link(null, link, null);
+        Link addedLink = new Link(link);
         linkRepository.add(addedLink);
 
         Optional<Link> result = linkRepository.findById(addedLink.getId() + 10);
@@ -105,8 +105,8 @@ public class JdbcLinkTest extends IntegrationTest {
     void findByUrlTest() {
         URI link = URI.create("https://test1.com");
         URI link2 = URI.create("https://test2.com");
-        Link addedLink = new Link(null, link, null);
-        Link addedLink2 = new Link(null, link2, null);
+        Link addedLink = new Link(link);
+        Link addedLink2 = new Link(link2);
         linkRepository.add(addedLink);
         linkRepository.add(addedLink2);
 
@@ -124,7 +124,7 @@ public class JdbcLinkTest extends IntegrationTest {
     @Rollback
     void findOrCreateTestFind() {
         URI link = URI.create("https://test1.com");
-        Link addedLink = new Link(null, link, null);
+        Link addedLink = new Link(link);
         linkRepository.add(addedLink);
 
         Link result = linkRepository.findOrCreate(link);

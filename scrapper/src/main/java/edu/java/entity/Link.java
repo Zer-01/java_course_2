@@ -10,7 +10,12 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Link {
+    public Link(URI url) {
+        this.url = url;
+    }
+
     Long id;
     URI url;
     OffsetDateTime lastModifiedDate;
+    OffsetDateTime lastCheckDate;
 }
