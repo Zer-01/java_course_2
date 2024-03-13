@@ -1,19 +1,18 @@
 package edu.java.scrapper.jdbc;
 
 import edu.java.domain.repositories.LinkRepository;
-import edu.java.entity.Chat;
 import edu.java.entity.Link;
 import edu.java.scrapper.IntegrationTest;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import java.net.URI;
-import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -94,7 +93,7 @@ public class JdbcLinkTest extends IntegrationTest {
         Link addedLink = new Link(null, link, null);
         linkRepository.add(addedLink);
 
-        Optional<Link> result = linkRepository.findById(addedLink.getId()+10);
+        Optional<Link> result = linkRepository.findById(addedLink.getId() + 10);
 
         assertThat(result)
             .isEmpty();

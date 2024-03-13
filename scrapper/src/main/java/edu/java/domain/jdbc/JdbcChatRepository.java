@@ -21,7 +21,7 @@ public class JdbcChatRepository implements ChatRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final static RowMapper<Chat> CHAT_MAPPER = (ResultSet resultSet, int rowNum) -> new Chat(
+    public final static RowMapper<Chat> CHAT_MAPPER = (ResultSet resultSet, int rowNum) -> new Chat(
         resultSet.getLong("id"),
         resultSet.getObject("created_at", OffsetDateTime.class)
     );

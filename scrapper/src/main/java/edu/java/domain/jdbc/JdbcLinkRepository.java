@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 @Repository
 public class JdbcLinkRepository implements LinkRepository {
-    private final JdbcTemplate jdbcTemplate;
     private final static String FIND_BY_URL_QUERY = "SELECT * FROM link WHERE url = ?";
     private final static String ADD_QUERY = """
         INSERT INTO link(url) VALUES (?)
@@ -36,8 +35,9 @@ public class JdbcLinkRepository implements LinkRepository {
         SELECT id, url, last_modified_date FROM link
             WHERE url = ? AND NOT EXISTS (SELECT 1 FROM insert);
         """;
+    private final JdbcTemplate jdbcTemplate;
 
-    private final static RowMapper<Link> LINK_MAPPER = (ResultSet resultSet, int rowNum) -> new Link(
+    public final static RowMapper<Link> LINK_MAPPER = (ResultSet resultSet, int rowNum) -> new Link(
         resultSet.getLong("id"),
         URI.create(resultSet.getString("url")),
         resultSet.getObject("last_modified_date", OffsetDateTime.class)
