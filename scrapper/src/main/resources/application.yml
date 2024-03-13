@@ -16,6 +16,10 @@ clients:
 spring:
   liquibase:
     enabled: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/scrapper
+    password: postgres
+    username: postgres
   application:
     name: scrapper
 

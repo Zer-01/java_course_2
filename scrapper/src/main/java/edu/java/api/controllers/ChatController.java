@@ -1,5 +1,6 @@
 package edu.java.api.controllers;
 
+import edu.java.service.TgChatService;
 import edu.java.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,17 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class ChatController {
-    private final UserService service;
+    private final TgChatService service;
 
     @PostMapping("/tg-chat/{id}")
     public void newChat(@PathVariable("id") long id) {
-        service.newChat(id);
-        log.info("Новый чат добавлен");
+        service.register(id);
     }
 
     @DeleteMapping("/tg-chat/{id}")
     public void deleteChat(@PathVariable("id") long id) {
-        service.deleteChat(id);
-        log.info("Чат удалён");
+        service.unregister(id);
     }
 }
