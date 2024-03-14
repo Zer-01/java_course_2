@@ -6,6 +6,7 @@ import edu.java.scrapper.IntegrationTest;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,5 +149,44 @@ public class JdbcLinkTest extends IntegrationTest {
         assertEquals(result.get().getUrl(), addedLink.getUrl());
         assertThat(result.get().getLastModifiedDate())
             .isNotNull();
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void updateTest() {
+        URI link = URI.create("https://test1.com");
+        OffsetDateTime newTime = OffsetDateTime.now().plusMonths(10);
+        Link addedLink = new Link(link);
+        linkRepository.add(addedLink);
+        addedLink = linkRepository.findByUrl(addedLink.getUrl()).get();
+        addedLink.setLastCheckDate(newTime);
+
+        linkRepository.update(addedLink);
+        Link result = linkRepository.findById(addedLink.getId()).get();
+
+        assertEquals(newTime.toEpochSecond(), result.getLastCheckDate().toEpochSecond());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void timeSelectTest() {
+        URI link = URI.create("https://test1.com");
+        URI link2 = URI.create("https://test2.com");
+        Link addedLink = new Link(link);
+        Link addedLink2 = new Link(link2);
+        linkRepository.add(addedLink);
+        linkRepository.add(addedLink2);
+        OffsetDateTime time = OffsetDateTime.now().minusDays(1);
+        addedLink2 = linkRepository.findByUrl(addedLink2.getUrl()).get();
+        addedLink2.setLastCheckDate(time);
+        linkRepository.update(addedLink2);
+
+        List<Link> result = linkRepository.findCheckedEarlyThan(OffsetDateTime.now().minusHours(1));
+
+        assertThat(result)
+            .hasSize(1);
+        assertEquals(result.get(0).getUrl(), link2);
     }
 }

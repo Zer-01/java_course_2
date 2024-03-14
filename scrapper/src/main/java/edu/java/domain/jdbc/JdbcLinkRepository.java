@@ -3,6 +3,7 @@ package edu.java.domain.jdbc;
 import edu.java.domain.repositories.LinkRepository;
 import edu.java.entity.Link;
 import java.net.URI;
+import java.security.InvalidParameterException;
 import java.sql.ResultSet;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -16,6 +17,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class JdbcLinkRepository implements LinkRepository {
     private final static String FIND_BY_URL_QUERY = "SELECT * FROM link WHERE url = ?";
+    private final static String UPDATE_QUERY = """
+        UPDATE link
+        SET last_modified_date = ?, last_check_date = ?
+        WHERE id = ?
+        """;
+    private final static String FIND_CHECKED_EARLY_QUERY = """
+        SELECT * FROM link
+        WHERE last_check_date < ?
+        """;
     private final static String ADD_QUERY = """
         INSERT INTO link(url) VALUES (?)
         RETURNING id
@@ -52,6 +62,19 @@ public class JdbcLinkRepository implements LinkRepository {
     @Override
     public Link findOrCreate(URI url) {
         return jdbcTemplate.queryForObject(FIND_OR_CREATE_QUERY, LINK_MAPPER, url.toString(), url.toString());
+    }
+
+    @Override
+    public void update(Link link) {
+        if (link.getId() < 0 || link.getLastCheckDate() == null || link.getLastModifiedDate() == null) {
+            throw new InvalidParameterException();
+        }
+        jdbcTemplate.update(UPDATE_QUERY, link.getLastModifiedDate(), link.getLastCheckDate(), link.getId());
+    }
+
+    @Override
+    public List<Link> findCheckedEarlyThan(OffsetDateTime time) {
+        return jdbcTemplate.query(FIND_CHECKED_EARLY_QUERY, LINK_MAPPER, time);
     }
 
     @Override
