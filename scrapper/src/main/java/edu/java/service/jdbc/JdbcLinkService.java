@@ -65,7 +65,11 @@ public class JdbcLinkService implements LinkService {
         if (!chatsOfLink.contains(chat.get())) {
             throw new LinkNotFoundException("Link not found");
         }
-        chatLinkRepository.removeLinkForChat(chat.get().getId(), link.get().getId());
+        if (chatsOfLink.size() == 1) {
+            linkRepository.remove(link.get().getId());
+        } else {
+            chatLinkRepository.removeLinkForChat(chat.get().getId(), link.get().getId());
+        }
         return link.get();
     }
 
