@@ -1,7 +1,6 @@
 package edu.java.api.controllers;
 
 import edu.java.service.TgChatService;
-import edu.java.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;

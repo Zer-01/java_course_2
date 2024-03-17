@@ -1,7 +1,6 @@
 package edu.java.linkParser.parsers;
 
 import edu.java.linkParser.links.ParseResult;
-import java.net.URI;
 import java.util.Optional;
 
 public abstract class SiteParser {

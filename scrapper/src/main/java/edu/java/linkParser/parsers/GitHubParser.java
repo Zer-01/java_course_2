@@ -2,8 +2,8 @@ package edu.java.linkParser.parsers;
 
 import edu.java.linkParser.links.GitHubParseResult;
 import edu.java.linkParser.links.ParseResult;
-import org.springframework.stereotype.Component;
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
 @Component
 public class GitHubParser extends SiteParser {

@@ -5,9 +5,9 @@ import edu.java.entity.Chat;
 import edu.java.exceptions.api.ChatAlreadyExistsException;
 import edu.java.exceptions.api.ChatNotFoundException;
 import edu.java.service.TgChatService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component

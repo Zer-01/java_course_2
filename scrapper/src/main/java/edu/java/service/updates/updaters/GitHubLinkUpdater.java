@@ -6,11 +6,10 @@ import edu.java.dto.RepositoryResponse;
 import edu.java.entity.Link;
 import edu.java.linkParser.links.GitHubParseResult;
 import edu.java.linkParser.links.ParseResult;
-import lombok.RequiredArgsConstructor;
-import org.apache.kafka.common.protocol.types.Field;
-import org.springframework.stereotype.Component;
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component

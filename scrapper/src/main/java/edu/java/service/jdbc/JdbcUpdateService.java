@@ -2,7 +2,6 @@ package edu.java.service.jdbc;
 
 import edu.java.api.models.LinkUpdateRequest;
 import edu.java.clients.bot.BotClient;
-import edu.java.clients.bot.BotWebClient;
 import edu.java.domain.repositories.ChatLinkRepository;
 import edu.java.domain.repositories.LinkRepository;
 import edu.java.entity.Chat;
@@ -10,12 +9,12 @@ import edu.java.entity.Link;
 import edu.java.exceptions.api.ApiErrorException;
 import edu.java.service.UpdateService;
 import edu.java.service.updates.LinksUpdater;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 @RequiredArgsConstructor

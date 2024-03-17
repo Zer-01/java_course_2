@@ -5,7 +5,7 @@ import edu.java.api.models.LinkResponse;
 import edu.java.api.models.ListLinksResponse;
 import edu.java.entity.Link;
 import edu.java.service.LinkService;
-import edu.java.service.UserService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import java.net.URI;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
