@@ -3,6 +3,7 @@ package edu.java.api.handlers;
 import edu.java.api.models.ApiErrorResponse;
 import edu.java.exceptions.api.ChatAlreadyExistsException;
 import edu.java.exceptions.api.ChatNotFoundException;
+import edu.java.exceptions.api.InvalidLinkException;
 import edu.java.exceptions.api.LinkAlreadyTrackingException;
 import edu.java.exceptions.api.LinkNotFoundException;
 import java.util.Arrays;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ScrapperApiApplicationHandler {
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class, InvalidLinkException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ApiErrorResponse illegalRequest(MethodArgumentNotValidException e) {
         return new ApiErrorResponse(

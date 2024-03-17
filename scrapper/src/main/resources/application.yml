@@ -14,6 +14,12 @@ clients:
     bot: http://localhost:8090
 
 spring:
+  liquibase:
+    enabled: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/scrapper
+    password: postgres
+    username: postgres
   application:
     name: scrapper
 
