@@ -2,7 +2,7 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
-import edu.java.bot.db.Database;
+import edu.java.bot.service.LinkService;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ListCommand implements Command {
     private final static String LINKS_LIST_EMPTY_MESSAGE = "Список отслеживаемых ссылок пуст";
-    Database database;
+    LinkService linkService;
 
     @Autowired
-    public ListCommand(Database database) {
-        this.database = database;
+    public ListCommand(LinkService linkService) {
+        this.linkService = linkService;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ListCommand implements Command {
     @Override
     public SendMessageRequest handle(Update update) {
         long chatId = update.message().chat().id();
-        List<URI> linksList = database.getLinksList(chatId);
+        List<URI> linksList = linkService.getLinksList(chatId);
         String result;
 
         if (linksList.isEmpty()) {

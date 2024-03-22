@@ -2,10 +2,9 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
-import edu.java.bot.db.Database;
 import edu.java.bot.exceptions.commands.InvalidLinkException;
-import edu.java.bot.exceptions.commands.untrack.LinkNotFoundException;
 import edu.java.bot.exceptions.commands.untrack.UntrackInvalidFormatException;
+import edu.java.bot.service.LinkService;
 import edu.java.bot.validators.URLValidator;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UntrackCommand implements Command {
-    Database database;
+    LinkService linkService;
 
     @Autowired
-    public UntrackCommand(Database database) {
-        this.database = database;
+    public UntrackCommand(LinkService linkService) {
+        this.linkService = linkService;
     }
 
     @Override
@@ -43,10 +42,7 @@ public class UntrackCommand implements Command {
             throw new InvalidLinkException();
         }
 
-        if (!database.isLinkSaved(chatId, url)) {
-            throw new LinkNotFoundException();
-        }
-        database.removeLink(chatId, url);
+        linkService.removeLink(chatId, url);
 
         return new SendMessageRequest(chatId, "Успешно удалено из списка отслеживаемых ссылок");
     }

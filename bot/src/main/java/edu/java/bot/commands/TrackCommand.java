@@ -2,10 +2,9 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
-import edu.java.bot.db.Database;
 import edu.java.bot.exceptions.commands.InvalidLinkException;
-import edu.java.bot.exceptions.commands.track.LinkAlreadyAddedException;
 import edu.java.bot.exceptions.commands.track.TrackInvalidFormatException;
+import edu.java.bot.service.LinkService;
 import edu.java.bot.validators.URLValidator;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TrackCommand implements Command {
-    Database database;
+    LinkService linkService;
 
     @Autowired
-    public TrackCommand(Database database) {
-        this.database = database;
+    public TrackCommand(LinkService linkService) {
+        this.linkService = linkService;
     }
 
     @Override
@@ -43,10 +42,7 @@ public class TrackCommand implements Command {
             throw new InvalidLinkException();
         }
 
-        if (database.isLinkSaved(chatId, url)) {
-            throw new LinkAlreadyAddedException();
-        }
-        database.addLink(chatId, url);
+        linkService.addLink(chatId, url);
 
         return new SendMessageRequest(chatId, "Успешно добавлено в список отслеживаемых ссылок");
     }

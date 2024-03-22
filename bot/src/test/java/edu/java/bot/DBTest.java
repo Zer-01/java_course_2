@@ -5,10 +5,11 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.commands.CommandProcessor;
 import edu.java.bot.configuration.CPTestConfig;
-import edu.java.bot.db.InMemBotDB;
+import edu.java.bot.service.UserService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = CPTestConfig.class)
 public class DBTest {
     @Autowired
-    InMemBotDB db;
+    Map<Long, List<String>> db;
+    @Autowired
+    UserService userService;
     @Autowired
     CommandProcessor commandProcessor;
 
+    @BeforeEach
+    void clearDB() {
+        db.clear();
+    }
+
     @Test
     void dbDataTest() {
-        db.addUser(1);
-        db.addUser(2);
+        userService.registerUser(1);
+        userService.registerUser(2);
         Map<Long, List<String>> expResult = new HashMap<>();
         expResult.put(1L, List.of("https://test.com/link1"));
         expResult.put(2L, List.of("https://test.com/link4"));
@@ -38,7 +46,7 @@ public class DBTest {
         commandProcessor.process(getMockedUpdate(1, "/untrack https://test.com/link2"));
         commandProcessor.process(getMockedUpdate(2, "/untrack https://test.com/link3"));
 
-        assertThat(db.getDb())
+        assertThat(db)
             .containsExactlyInAnyOrderEntriesOf(expResult);
     }
 
