@@ -6,8 +6,11 @@ import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.botUtils.SendMessageRequest;
 import edu.java.bot.commands.CommandProcessor;
 import edu.java.bot.configuration.CPTestConfig;
-import edu.java.bot.db.InMemBotDB;
+import edu.java.bot.service.LinkService;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,14 +27,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CommandProcessorTest {
     static final long chatId = 1;
     @Autowired
-    InMemBotDB db;
+    LinkService linkService;
+    @Autowired
+    Map<Long, List<String>> db;
     @Autowired
     CommandProcessor commandProcessor;
 
     @BeforeEach
     void clearDB() {
-        db.getDb().clear();
-        db.addUser(chatId);
+        db.clear();
+        db.put(chatId, new ArrayList<>());
     }
 
     static Arguments[] commands() {
@@ -44,7 +49,7 @@ public class CommandProcessorTest {
                 */untrack* - Удалить ссылку из отслеживаемых
                 """),
             Arguments.of("/list", "Список отслеживаемых ссылок пуст"),
-            Arguments.of("/start", "Здравствуй, пользователь."),
+            Arguments.of("/start", "И снова здравствуй, пользователь."),
             Arguments.of("/track", "Неверный формат\nДолжно быть: /track <URL>"),
             Arguments.of("/untrack", "Неверный формат\nДолжно быть: /untrack <URL>"),
             Arguments.of("/track abc", "Неверный формат ссылки"),
@@ -79,9 +84,9 @@ public class CommandProcessorTest {
     @Test
     void listCommandTest() {
         Update update = getMockedUpdate("/list");
-        db.addLink(1, URI.create("https://testlink.com/link1"));
-        db.addLink(1, URI.create("https://testlink.com/link2"));
-        db.addLink(1, URI.create("https://testlink.com/link3"));
+        linkService.addLink(1, URI.create("https://testlink.com/link1"));
+        linkService.addLink(1, URI.create("https://testlink.com/link2"));
+        linkService.addLink(1, URI.create("https://testlink.com/link3"));
         String expResult = """
             Список отслеживаемых ссылок:
             https://testlink.com/link1
