@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
 public class BotWebClient implements BotClient {
     WebClient webClient;
@@ -38,7 +39,8 @@ public class BotWebClient implements BotClient {
                     .flatMap(error -> Mono.error(new ApiErrorException(error))))
             .bodyToMono(Void.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
-            .retry(numberOfAttempts)
+            .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
+                .filter(throwable -> !(throwable instanceof ApiErrorException)))
             .block();
     }
 }
