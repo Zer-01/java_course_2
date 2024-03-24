@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
-@Repository
 public class JdbcLinkRepository implements LinkRepository {
     private final static String FIND_BY_URL_QUERY = "SELECT * FROM link WHERE url = ?";
     private final static String UPDATE_QUERY = """

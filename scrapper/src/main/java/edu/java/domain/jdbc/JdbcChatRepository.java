@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
-@Repository
 public class JdbcChatRepository implements ChatRepository {
     private final static String ADD_QUERY = "INSERT INTO chat(id) VALUES (?)";
     private final static String REMOVE_QUERY = "DELETE FROM chat WHERE id = ?";

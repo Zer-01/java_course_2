@@ -1,5 +1,6 @@
-package edu.java.service.db;
+package edu.java.service.jpa;
 
+import edu.java.domain.jpa.JpaChatLinkRepository;
 import edu.java.domain.repositories.ChatLinkRepository;
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.domain.repositories.LinkRepository;
@@ -11,19 +12,19 @@ import edu.java.exceptions.api.LinkAlreadyTrackingException;
 import edu.java.exceptions.api.LinkNotFoundException;
 import edu.java.service.LinkService;
 import edu.java.validators.URLValidator;
+import lombok.RequiredArgsConstructor;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class DBLinkService implements LinkService {
+public class JpaLinkService implements LinkService {
     private final static String INVALID_LINK = "Invalid link";
     private final static String CHAT_NOT_FOUND = "Chat not found";
     private final static String LINK_NOT_FOUND = "Link not found";
     private final static String LINK_ALREADY_TRACKING = "Link already tracking";
-    private final LinkRepository linkRepository;
     private final ChatRepository chatRepository;
+    private final LinkRepository linkRepository;
     private final ChatLinkRepository chatLinkRepository;
 
     @Override
@@ -38,12 +39,12 @@ public class DBLinkService implements LinkService {
         }
 
         Link link = linkRepository.findOrCreate(url);
-        List<Chat> chatsOfLink = chatLinkRepository.findChatsOfLink(link.getId());
-        if (chatsOfLink.stream().anyMatch(inChat -> chat.get().getId().equals(inChat.getId()))) {
+        List<Chat> chatsOfLink = link.getChats().stream().toList();
+        if (chatsOfLink.contains(chat.get())) {
             throw new LinkAlreadyTrackingException(LINK_ALREADY_TRACKING);
         }
 
-        chatLinkRepository.addLinkForChat(chat.get().getId(), link.getId());
+        chatLinkRepository.addLinkForChat(chat.get(), link);
         return link;
     }
 
@@ -63,14 +64,14 @@ public class DBLinkService implements LinkService {
             throw new LinkNotFoundException(LINK_NOT_FOUND);
         }
 
-        List<Chat> chatsOfLink = chatLinkRepository.findChatsOfLink(link.get().getId());
-        if (chatsOfLink.stream().noneMatch(inChat -> chat.get().getId().equals(inChat.getId()))) {
+        List<Chat> chatsOfLink = link.get().getChats().stream().toList();
+        if (!chatsOfLink.contains(chat.get())) {
             throw new LinkNotFoundException(LINK_NOT_FOUND);
         }
         if (chatsOfLink.size() == 1) {
             linkRepository.remove(link.get().getId());
         } else {
-            chatLinkRepository.removeLinkForChat(chat.get().getId(), link.get().getId());
+            chatLinkRepository.removeLinkForChat(chat.get(), link.get());
         }
         return link.get();
     }
@@ -82,6 +83,6 @@ public class DBLinkService implements LinkService {
             throw new ChatNotFoundException(CHAT_NOT_FOUND);
         }
 
-        return chatLinkRepository.findLinksOfChat(chat.get().getId());
+        return chat.get().getLinks().stream().toList();
     }
 }
