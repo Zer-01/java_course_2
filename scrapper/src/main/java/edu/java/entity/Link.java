@@ -1,9 +1,5 @@
 package edu.java.entity;
 
-import java.net.URI;
-import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import edu.java.domain.jpa.URIConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -13,8 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -3,9 +3,9 @@ package edu.java.bot.service;
 import edu.java.api.models.LinkUpdateRequest;
 import edu.java.bot.botUtils.Bot;
 import edu.java.bot.botUtils.SendMessageRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component

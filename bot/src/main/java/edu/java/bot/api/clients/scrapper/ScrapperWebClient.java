@@ -54,8 +54,8 @@ public class ScrapperWebClient implements ScrapperClient {
             .bodyToMono(Void.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
             .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException ||
-                    throwable instanceof ApiErrorException)))
+                .filter(throwable -> !(throwable instanceof CommandException
+                    || throwable instanceof ApiErrorException)))
             .block();
     }
 
@@ -72,8 +72,8 @@ public class ScrapperWebClient implements ScrapperClient {
             .bodyToMono(Void.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
             .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException ||
-                    throwable instanceof ApiErrorException)))
+                .filter(throwable -> !(throwable instanceof CommandException
+                    || throwable instanceof ApiErrorException)))
             .block();
     }
 
@@ -91,8 +91,8 @@ public class ScrapperWebClient implements ScrapperClient {
             .bodyToMono(ListLinksResponse.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
             .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException ||
-                    throwable instanceof ApiErrorException)))
+                .filter(throwable -> !(throwable instanceof CommandException
+                    || throwable instanceof ApiErrorException)))
             .blockOptional();
     }
 
@@ -114,8 +114,8 @@ public class ScrapperWebClient implements ScrapperClient {
             .bodyToMono(LinkResponse.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
             .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException ||
-                    throwable instanceof ApiErrorException)))
+                .filter(throwable -> !(throwable instanceof CommandException
+                    || throwable instanceof ApiErrorException)))
             .blockOptional();
     }
 
@@ -131,13 +131,13 @@ public class ScrapperWebClient implements ScrapperClient {
                     .flatMap(error -> Mono.error(new ApiErrorException(error))))
             .onStatus(HttpStatus.NOT_FOUND::equals, response ->
                 response.bodyToMono(ApiErrorResponse.class)
-                    .flatMap(error -> (error.exceptionName().equals("LinkNotFoundException")) ?
-                        Mono.error(new LinkNotFoundException()) : Mono.error(new ChatNotFoundException())))
+                    .flatMap(error -> (error.exceptionName().equals("LinkNotFoundException"))
+                        ? Mono.error(new LinkNotFoundException()) : Mono.error(new ChatNotFoundException())))
             .bodyToMono(LinkResponse.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
             .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException ||
-                    throwable instanceof ApiErrorException)))
+                .filter(throwable -> !(throwable instanceof CommandException
+                    || throwable instanceof ApiErrorException)))
             .blockOptional();
     }
 }

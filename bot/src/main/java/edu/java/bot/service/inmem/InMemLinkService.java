@@ -4,11 +4,10 @@ import edu.java.bot.exceptions.commands.chat.ChatNotFoundException;
 import edu.java.bot.exceptions.commands.track.LinkAlreadyAddedException;
 import edu.java.bot.exceptions.commands.untrack.LinkNotFoundException;
 import edu.java.bot.service.LinkService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class InMemLinkService implements LinkService {

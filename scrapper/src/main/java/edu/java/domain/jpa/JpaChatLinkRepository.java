@@ -4,10 +4,9 @@ import edu.java.domain.repositories.ChatLinkRepository;
 import edu.java.entity.Chat;
 import edu.java.entity.Link;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 public class JpaChatLinkRepository implements ChatLinkRepository {
