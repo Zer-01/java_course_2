@@ -11,6 +11,7 @@ import edu.java.service.updates.LinksUpdater;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.Convert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -52,5 +52,4 @@ public class JdbcAccessConfiguration {
     public ChatLinkRepository chatLinkRepository(JdbcTemplate jdbcTemplate) {
         return new JdbcChatLinkRepository(jdbcTemplate, chatRowMapper(), linkRowMapper());
     }
-
 }
