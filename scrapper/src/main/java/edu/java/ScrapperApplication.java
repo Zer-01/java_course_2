@@ -2,8 +2,6 @@ package edu.java;
 
 import edu.java.configuration.ApplicationConfig;
 import edu.java.configuration.ClientConfiguration;
-import edu.java.configuration.JdbcAccessConfiguration;
-import edu.java.configuration.JpaAccessConfiguration;
 import edu.java.configuration.WebClientsConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

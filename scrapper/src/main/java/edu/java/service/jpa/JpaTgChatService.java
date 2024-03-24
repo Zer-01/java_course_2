@@ -5,8 +5,8 @@ import edu.java.entity.Chat;
 import edu.java.exceptions.api.ChatAlreadyExistsException;
 import edu.java.exceptions.api.ChatNotFoundException;
 import edu.java.service.TgChatService;
-import lombok.RequiredArgsConstructor;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JpaTgChatService implements TgChatService {

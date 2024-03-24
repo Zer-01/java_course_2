@@ -42,11 +42,6 @@ public class JdbcChatLinkRepository implements ChatLinkRepository {
     }
 
     @Override
-    public void addLinkForChat(Chat chat, Link link) {
-        addLinkForChat(chat.getId(), link.getId());
-    }
-
-    @Override
     public void addLinkForChat(long chatId, long linkId) {
         jdbcTemplate.update(ADD_LINK, chatId, linkId);
     }
