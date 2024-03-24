@@ -7,7 +7,6 @@ import edu.java.exceptions.api.ChatNotFoundException;
 import edu.java.service.TgChatService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 public class JdbcTgChatService implements TgChatService {

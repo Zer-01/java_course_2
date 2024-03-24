@@ -6,7 +6,6 @@ import edu.java.entity.Link;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import static edu.java.domain.jdbc.JdbcChatRepository.CHAT_MAPPER;
 import static edu.java.domain.jdbc.JdbcLinkRepository.LINK_MAPPER;
 

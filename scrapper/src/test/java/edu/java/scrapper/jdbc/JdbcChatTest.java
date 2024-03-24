@@ -1,7 +1,6 @@
 package edu.java.scrapper.jdbc;
 
 import edu.java.domain.jdbc.JdbcChatRepository;
-import edu.java.domain.repositories.ChatRepository;
 import edu.java.entity.Chat;
 import edu.java.scrapper.IntegrationTest;
 import java.time.OffsetDateTime;

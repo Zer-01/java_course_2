@@ -1,6 +1,5 @@
 package edu.java.service.jpa;
 
-import edu.java.domain.jpa.JpaChatLinkRepository;
 import edu.java.domain.repositories.ChatLinkRepository;
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.domain.repositories.LinkRepository;
@@ -12,10 +11,10 @@ import edu.java.exceptions.api.LinkAlreadyTrackingException;
 import edu.java.exceptions.api.LinkNotFoundException;
 import edu.java.service.LinkService;
 import edu.java.validators.URLValidator;
-import lombok.RequiredArgsConstructor;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JpaLinkService implements LinkService {
