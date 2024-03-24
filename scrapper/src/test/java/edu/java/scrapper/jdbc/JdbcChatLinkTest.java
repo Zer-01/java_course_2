@@ -7,6 +7,7 @@ import edu.java.scrapper.IntegrationTest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@EnableConfigurationProperties(JdbcTestConfig.class)
 public class JdbcChatLinkTest extends IntegrationTest {
     private static final String ADD_CHAT_QUERY = "INSERT INTO chat(id) VALUES(?)";
     private static final String ADD_LINK_QUERY = "INSERT INTO link(id, url) VALUES(?, ?)";

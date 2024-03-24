@@ -8,12 +8,23 @@ import java.util.Optional;
 import edu.java.linkParser.links.StackOverflowParseResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.bouncycastle.math.ec.ECCurve;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+@SpringBootTest(classes = ParserTest.Config.class)
 public class ParserTest {
+    @Configuration
+    @ComponentScan("edu.java.linkParser")
+    public static class Config {
+    }
+
     @Autowired
     Parser linkParser;
 
