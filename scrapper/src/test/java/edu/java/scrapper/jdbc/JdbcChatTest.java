@@ -1,5 +1,6 @@
 package edu.java.scrapper.jdbc;
 
+import edu.java.domain.jdbc.JdbcChatRepository;
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.entity.Chat;
 import edu.java.scrapper.IntegrationTest;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
@@ -19,9 +21,10 @@ import static org.assertj.core.api.Assertions.within;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@EnableConfigurationProperties(JdbcTestConfig.class)
 public class JdbcChatTest extends IntegrationTest {
     @Autowired
-    private ChatRepository chatRepository;
+    private JdbcChatRepository chatRepository;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
