@@ -1,16 +1,15 @@
-package edu.java.service.jdbc;
+package edu.java.service.jpa;
 
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.entity.Chat;
 import edu.java.exceptions.api.ChatAlreadyExistsException;
 import edu.java.exceptions.api.ChatNotFoundException;
 import edu.java.service.TgChatService;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import java.util.Optional;
 
 @RequiredArgsConstructor
-public class JdbcTgChatService implements TgChatService {
+public class JpaTgChatService implements TgChatService {
     private final ChatRepository chatRepository;
 
     @Override

@@ -11,7 +11,6 @@ import static edu.java.domain.jdbc.JdbcChatRepository.CHAT_MAPPER;
 import static edu.java.domain.jdbc.JdbcLinkRepository.LINK_MAPPER;
 
 @RequiredArgsConstructor
-@Repository
 public class JdbcChatLinkRepository implements ChatLinkRepository {
     private final static String FIND_LINKS_QUERY = """
         SELECT * FROM link l
@@ -38,8 +37,18 @@ public class JdbcChatLinkRepository implements ChatLinkRepository {
     }
 
     @Override
+    public void addLinkForChat(Chat chat, Link link) {
+        addLinkForChat(chat.getId(), link.getId());
+    }
+
+    @Override
     public void addLinkForChat(long chatId, long linkId) {
         jdbcTemplate.update(ADD_LINK, chatId, linkId);
+    }
+
+    @Override
+    public void removeLinkForChat(Chat chat, Link link) {
+        removeLinkForChat(chat.getId(), link.getId());
     }
 
     @Override
