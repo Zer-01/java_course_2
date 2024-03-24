@@ -1,4 +1,4 @@
-package edu.java.service.jdbc;
+package edu.java.service.jpa;
 
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.entity.Chat;
@@ -9,7 +9,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class JdbcTgChatService implements TgChatService {
+public class JpaTgChatService implements TgChatService {
     private final ChatRepository chatRepository;
 
     @Override

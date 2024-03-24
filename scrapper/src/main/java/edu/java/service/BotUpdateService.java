@@ -1,4 +1,4 @@
-package edu.java.service.jdbc;
+package edu.java.service;
 
 import edu.java.api.models.LinkUpdateRequest;
 import edu.java.clients.bot.BotClient;
@@ -7,7 +7,6 @@ import edu.java.domain.repositories.LinkRepository;
 import edu.java.entity.Chat;
 import edu.java.entity.Link;
 import edu.java.exceptions.api.ApiErrorException;
-import edu.java.service.UpdateService;
 import edu.java.service.updates.LinksUpdater;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -19,8 +18,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class JdbcUpdateService implements UpdateService {
-    private final static int MS_IN_SEC = 1000;
+public class BotUpdateService implements UpdateService {
     private final LinkRepository linkRepository;
     private final ChatLinkRepository chatLinkRepository;
     private final LinksUpdater updater;

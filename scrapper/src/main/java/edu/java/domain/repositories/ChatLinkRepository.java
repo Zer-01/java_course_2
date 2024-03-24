@@ -9,7 +9,11 @@ public interface ChatLinkRepository {
 
     List<Chat> findChatsOfLink(long linkId);
 
+    void addLinkForChat(Chat chat, Link link);
+
     void addLinkForChat(long chatId, long linkId);
+
+    void removeLinkForChat(Chat chat, Link link);
 
     void removeLinkForChat(long chatId, long linkId);
 }

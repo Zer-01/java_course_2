@@ -1,6 +1,6 @@
-package edu.java.scrapper.jdbc;
+package edu.java.scrapper.jpa;
 
-import edu.java.domain.jdbc.JdbcChatLinkRepository;
+import edu.java.domain.jpa.JpaChatLinkRepository;
 import edu.java.entity.Chat;
 import edu.java.entity.Link;
 import edu.java.scrapper.IntegrationTest;
@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@EnableConfigurationProperties(JdbcTestConfig.class)
-public class JdbcChatLinkTest extends IntegrationTest {
+@EnableConfigurationProperties(JpaTestConfig.class)
+public class JpaChatLinkTest extends IntegrationTest {
     private static final String ADD_CHAT_QUERY = "INSERT INTO chat(id) VALUES(?)";
     private static final String ADD_LINK_QUERY = "INSERT INTO link(id, url) VALUES(?, ?)";
     @Autowired
     JdbcTemplate jdbcTemplate;
     @Autowired
-    JdbcChatLinkRepository chatLinkRepository;
+    JpaChatLinkRepository chatLinkRepository;
 
     @Test
     @Transactional

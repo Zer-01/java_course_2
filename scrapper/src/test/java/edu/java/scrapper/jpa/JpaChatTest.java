@@ -1,8 +1,9 @@
-package edu.java.scrapper.jdbc;
+package edu.java.scrapper.jpa;
 
-import edu.java.domain.jdbc.JdbcChatRepository;
+import edu.java.domain.jpa.JpaChatRepository;
 import edu.java.entity.Chat;
 import edu.java.scrapper.IntegrationTest;
+import jakarta.persistence.EntityManager;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -20,12 +21,14 @@ import static org.assertj.core.api.Assertions.within;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@EnableConfigurationProperties(JdbcTestConfig.class)
-public class JdbcChatTest extends IntegrationTest {
+@EnableConfigurationProperties(JpaTestConfig.class)
+public class JpaChatTest extends IntegrationTest {
     @Autowired
-    private JdbcChatRepository chatRepository;
+    private JpaChatRepository chatRepository;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     @Transactional
@@ -41,6 +44,7 @@ public class JdbcChatTest extends IntegrationTest {
         Long chatId = 10L;
 
         chatRepository.add(new Chat(chatId, null));
+        entityManager.flush();
         Long resultId = jdbcTemplate.queryForObject("SELECT id FROM chat", Long.class);
         OffsetDateTime resultDate = jdbcTemplate.queryForObject("SELECT created_at FROM chat", OffsetDateTime.class);
 
@@ -100,6 +104,10 @@ public class JdbcChatTest extends IntegrationTest {
             .toList();
 
         List<Chat> result = chatRepository.findAll();
+
+        for (Chat chat : result) {
+            System.out.println(chat.getId());
+        }
 
         assertThat(result)
             .hasSize(expResult.size());

@@ -1,8 +1,9 @@
-package edu.java.scrapper.jdbc;
+package edu.java.scrapper.jpa;
 
-import edu.java.domain.repositories.LinkRepository;
+import edu.java.domain.jpa.JpaLinkRepository;
 import edu.java.entity.Link;
 import edu.java.scrapper.IntegrationTest;
+import jakarta.persistence.EntityManager;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -20,12 +21,14 @@ import static org.assertj.core.api.Assertions.within;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@EnableConfigurationProperties(JdbcTestConfig.class)
-public class JdbcLinkTest extends IntegrationTest {
+@EnableConfigurationProperties(JpaTestConfig.class)
+public class JpaLinkTest extends IntegrationTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
     @Autowired
-    LinkRepository linkRepository;
+    JpaLinkRepository linkRepository;
+    @Autowired
+    EntityManager entityManager;
 
     @Test
     @Transactional
@@ -42,6 +45,7 @@ public class JdbcLinkTest extends IntegrationTest {
         Link addedLink = new Link(link);
 
         linkRepository.add(addedLink);
+        entityManager.flush();
         URI resultLink = jdbcTemplate.queryForObject("SELECT url FROM link WHERE id = ?", URI.class, addedLink.getId());
         OffsetDateTime resultDate =
             jdbcTemplate.queryForObject(

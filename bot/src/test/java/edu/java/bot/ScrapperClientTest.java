@@ -14,6 +14,7 @@ import edu.java.bot.exceptions.commands.untrack.LinkNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -33,6 +34,16 @@ public class ScrapperClientTest {
           "description": "error",
           "code": "400",
           "exceptionName": "name",
+          "exceptionMessage": "message",
+          "stacktrace": [
+            "s1", "s2"
+          ]
+        }""";
+    static final String errorResponseStubLinkNotFound = """
+        {
+          "description": "error",
+          "code": "400",
+          "exceptionName": "LinkNotFoundException",
           "exceptionMessage": "message",
           "stacktrace": [
             "s1", "s2"
@@ -223,8 +234,8 @@ public class ScrapperClientTest {
     void deleteLinkNotFoundLink(WireMockRuntimeInfo wireMockRuntimeInfo) {
         Long chatId = 1L;
         stubFor(WireMock.delete("/links").withHeader("Tg-Chat-Id", equalTo("1"))
-            .willReturn(aResponse().withStatus(409).withHeader("content-type", "application/json")
-                .withBody(errorResponseStub)));
+            .willReturn(notFound().withHeader("content-type", "application/json")
+                .withBody(errorResponseStubLinkNotFound)));
         AddLinkRequest request = new AddLinkRequest(URI.create("http://link1.com/a"));
 
         ScrapperWebClient scrapperWebClient = new ScrapperWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
