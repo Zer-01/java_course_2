@@ -11,10 +11,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @EnableConfigurationProperties(JpaTestConfig.class)
 public class JpaChatLinkTest extends IntegrationTest {
     private static final String ADD_CHAT_QUERY = "INSERT INTO chat(id) VALUES(?)";
