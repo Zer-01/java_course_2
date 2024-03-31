@@ -1,14 +1,15 @@
-package edu.java.clients.retry;
+package edu.java.bot.api.clients.retry;
 
-import edu.java.configuration.WebClientsConfig;
-import java.time.Duration;
-import java.util.List;
-import java.util.Objects;
+import edu.java.bot.configuration.WebClientsConfig;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.Objects;
 
 public class RetryConfig {
     public static Retry getRetryConfig(
