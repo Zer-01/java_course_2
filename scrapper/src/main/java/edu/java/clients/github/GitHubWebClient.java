@@ -1,5 +1,6 @@
 package edu.java.clients.github;
 
+import edu.java.clients.retry.RetryConfig;
 import edu.java.configuration.WebClientsConfig;
 import edu.java.dto.RepositoryResponse;
 import java.time.Duration;
@@ -8,24 +9,25 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.util.retry.Retry;
 
 @Slf4j
 public class GitHubWebClient implements GitHubClient {
     private final WebClient webClient;
-    private final long numberOfAttempts;
+    private final Retry retryConfig;
     private final long timeoutSeconds;
 
-    public GitHubWebClient(String baseUrl, long attempts, long timeout) {
+    public GitHubWebClient(String baseUrl, long timeout, Retry retryConfig) {
         Objects.requireNonNull(baseUrl, "Base Url cannot be null");
         webClient = WebClient.builder()
             .baseUrl(baseUrl)
             .build();
         timeoutSeconds = timeout;
-        numberOfAttempts = attempts;
+        this.retryConfig = retryConfig;
     }
 
     public GitHubWebClient(WebClientsConfig config) {
-        this(config.urls().github(), config.connection().attempts(), config.connection().timeout());
+        this(config.urls().github(), config.connection().attempts(), RetryConfig.getRetryConfig(config.connection()));
     }
 
     @Override
@@ -36,7 +38,7 @@ public class GitHubWebClient implements GitHubClient {
                 .retrieve()
                 .bodyToMono(RepositoryResponse.class)
                 .timeout(Duration.ofSeconds(timeoutSeconds))
-                .retry(numberOfAttempts)
+                .retryWhen(retryConfig)
                 .blockOptional();
         } catch (WebClientResponseException e) {
             log.error("GitHUb client error: " + e.getMessage());

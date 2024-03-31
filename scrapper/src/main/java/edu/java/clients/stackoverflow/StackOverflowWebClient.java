@@ -1,5 +1,6 @@
 package edu.java.clients.stackoverflow;
 
+import edu.java.clients.retry.RetryConfig;
 import edu.java.configuration.WebClientsConfig;
 import edu.java.dto.QuestionResponse;
 import java.time.Duration;
@@ -8,24 +9,29 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.util.retry.Retry;
 
 @Slf4j
 public class StackOverflowWebClient implements StackoverflowClient {
     private final WebClient webClient;
-    private final long numberOfAttempts;
+    private final Retry retryConfig;
     private final long timeoutSeconds;
 
-    public StackOverflowWebClient(String baseUrl, long attempts, long timeout) {
+    public StackOverflowWebClient(String baseUrl, long timeout, Retry retryConfig) {
         Objects.requireNonNull(baseUrl, "Base Url cannot be null");
         webClient = WebClient.builder()
             .baseUrl(baseUrl)
             .build();
         timeoutSeconds = timeout;
-        numberOfAttempts = attempts;
+        this.retryConfig = retryConfig;
     }
 
     public StackOverflowWebClient(WebClientsConfig config) {
-        this(config.urls().stackoverflow(), config.connection().attempts(), config.connection().timeout());
+        this(
+            config.urls().stackoverflow(),
+            config.connection().attempts(),
+            RetryConfig.getRetryConfig(config.connection())
+        );
     }
 
     @Override
@@ -36,7 +42,7 @@ public class StackOverflowWebClient implements StackoverflowClient {
                 .retrieve()
                 .bodyToMono(QuestionResponse.class)
                 .timeout(Duration.ofSeconds(timeoutSeconds))
-                .retry(numberOfAttempts)
+                .retryWhen(retryConfig)
                 .blockOptional();
         } catch (WebClientResponseException e) {
             log.error("StackOverflow client error: " + e.getMessage());

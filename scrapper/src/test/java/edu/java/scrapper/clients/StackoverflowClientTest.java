@@ -3,12 +3,17 @@ package edu.java.scrapper.clients;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import edu.java.clients.retry.RetryConfig;
+import edu.java.clients.retry.RetryStrategy;
 import edu.java.clients.stackoverflow.StackOverflowWebClient;
 import edu.java.dto.QuestionResponse;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import reactor.util.retry.Retry;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @WireMockTest(httpPort = 8080)
 public class StackoverflowClientTest {
+    Retry retryStub = RetryConfig.getRetryConfig(RetryStrategy.CONSTANT, Duration.ofSeconds(2), 3, List.of(500, 501));
+
     @Test
     void normalResponseTest(WireMockRuntimeInfo wireMockRuntimeInfo) {
         long expId = 12345678;
@@ -30,7 +37,7 @@ public class StackoverflowClientTest {
         stubFor(WireMock.get(String.format("/questions/%d?site=stackoverflow", expId))
             .willReturn(ok().withHeader("content-type", "application/json").withBody(body)));
         StackOverflowWebClient stackOverflowWebClient =
-            new StackOverflowWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
+            new StackOverflowWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, retryStub);
 
         Optional<QuestionResponse> response = stackOverflowWebClient.fetchLastActivity(expId);
 
@@ -50,7 +57,7 @@ public class StackoverflowClientTest {
         stubFor(WireMock.get(String.format("/questions/%d?site=stackoverflow", id))
             .willReturn(ok().withHeader("content-type", "application/json").withBody(body)));
         StackOverflowWebClient stackOverflowWebClient =
-            new StackOverflowWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, 5);
+            new StackOverflowWebClient(wireMockRuntimeInfo.getHttpBaseUrl(), 5, retryStub);
 
         Optional<QuestionResponse> response = stackOverflowWebClient.fetchLastActivity(id);
 

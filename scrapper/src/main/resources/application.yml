@@ -7,8 +7,11 @@ app:
 
 clients:
   connection:
-    attempts: 5
+    attempts: 3
+    delay: 5
     timeout: 5
+    strategy: linear
+    codes: [500, 502, 503, 504]
   urls:
     github: https://api.github.com
     stackoverflow: https://api.stackexchange.com
