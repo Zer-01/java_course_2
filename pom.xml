@@ -43,6 +43,14 @@
         <!-- Linters -->
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <checkstyle.version>10.12.7</checkstyle.version>
+
+        <!--bucket4j-->
+        <bucket4j-spring-boot-starter.version>0.12.5</bucket4j-spring-boot-starter.version>
+
+        <!--Cache-->
+        <caffeine.vesion>3.1.8</caffeine.vesion>
+        <jcache.vesion>1.1.1</jcache.vesion>
+        <spring-boot-starter-cache.version>3.2.4</spring-boot-starter-cache.version>
     </properties>
 
     <modules>
@@ -86,6 +94,36 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+
+
+            <dependency>
+                <groupId>com.giffing.bucket4j.spring.boot.starter</groupId>
+                <artifactId>bucket4j-spring-boot-starter</artifactId>
+                <version>${bucket4j-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!--Cache-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cache</artifactId>
+                <version>${spring-boot-starter-cache.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>${jcache.vesion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.vesion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>jcache</artifactId>
+                <version>${caffeine.vesion}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
