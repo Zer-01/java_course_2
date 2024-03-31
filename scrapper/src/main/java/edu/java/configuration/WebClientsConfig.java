@@ -2,8 +2,8 @@ package edu.java.configuration;
 
 import edu.java.clients.retry.RetryStrategy;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "clients")
 public record WebClientsConfig(
