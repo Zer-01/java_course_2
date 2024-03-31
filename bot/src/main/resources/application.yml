@@ -12,10 +12,35 @@ clients:
     scrapper: http://localhost:8080
 
 spring:
+  cache:
+    cache-names:
+      - rate-limit-buckets
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
   application:
     name: bot
   jackson:
     time-zone: UTC
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      url: /updates.*
+      strategy: first
+      http-response-body: "{ \"status\": 429, \"error\": \"Too Many Requests\", \"message\": \"You have exhausted your API Request Quota\" }"
+      rate-limits:
+        - execute-condition: "getRemoteAddr() == '127.0.0.1'"
+          cache-key: "getRemoteAddr()"
+          bandwidths:
+            - capacity: 10000
+              time: 1
+              unit: minutes
+        - cache-key: "getRemoteAddr()"
+          bandwidths:
+            - capacity: 10
+              time: 1
+              unit: minutes
 
 server:
   port: 8090
