@@ -2,11 +2,13 @@ package edu.java.domain.jpa;
 
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.entity.Chat;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
@@ -18,7 +20,11 @@ public class JpaChatRepository implements ChatRepository {
     @Override
     public void add(Chat entity) {
         entity.setCreatedAt(OffsetDateTime.now());
-        entityManager.persist(entity);
+        try {
+            entityManager.persist(entity);
+        } catch (EntityExistsException e) {
+            throw new DuplicateKeyException("Entity already exists", e);
+        }
     }
 
     @Transactional

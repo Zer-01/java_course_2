@@ -7,9 +7,11 @@ import edu.java.exceptions.api.ChatNotFoundException;
 import edu.java.service.TgChatService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
+@Component
 public class DBTgChatService implements TgChatService {
     private final ChatRepository chatRepository;
 
@@ -17,7 +19,7 @@ public class DBTgChatService implements TgChatService {
     public void register(long chatId) {
         try {
             chatRepository.add(new Chat(chatId, null));
-        } catch (DuplicateKeyException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new ChatAlreadyExistsException("Chat is already registered");
         }
     }
