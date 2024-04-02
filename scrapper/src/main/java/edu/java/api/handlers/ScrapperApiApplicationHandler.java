@@ -16,12 +16,26 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ScrapperApiApplicationHandler {
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class, InvalidLinkException.class})
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ApiErrorResponse illegalRequest(MethodArgumentNotValidException e) {
         return new ApiErrorResponse(
             "Illegal arguments",
             e.getStatusCode().toString(),
+            e.getClass().getSimpleName(),
+            e.getMessage(),
+            Arrays.stream(e.getStackTrace())
+                .map(StackTraceElement::toString)
+                .toList()
+        );
+    }
+
+    @ExceptionHandler(value = InvalidLinkException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ApiErrorResponse invalidLink(InvalidLinkException e) {
+        return new ApiErrorResponse(
+            "Invalid link",
+            HttpStatus.BAD_REQUEST.toString(),
             e.getClass().getSimpleName(),
             e.getMessage(),
             Arrays.stream(e.getStackTrace())
@@ -44,11 +58,11 @@ public class ScrapperApiApplicationHandler {
         );
     }
 
-    @ExceptionHandler(value = {LinkNotFoundException.class, ChatNotFoundException.class})
+    @ExceptionHandler(value = LinkNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ApiErrorResponse notFound(RuntimeException e) {
+    public ApiErrorResponse linkNotFound(LinkNotFoundException e) {
         return new ApiErrorResponse(
-            "Resource not found",
+            "Link not found",
             HttpStatus.NOT_FOUND.toString(),
             e.getClass().getSimpleName(),
             e.getMessage(),
@@ -58,11 +72,39 @@ public class ScrapperApiApplicationHandler {
         );
     }
 
-    @ExceptionHandler(value = {LinkAlreadyTrackingException.class, ChatAlreadyExistsException.class})
-    @ResponseStatus(value = HttpStatus.CONFLICT)
-    public ApiErrorResponse alreadyExist(RuntimeException e) {
+    @ExceptionHandler(value = ChatNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ApiErrorResponse chatNotFound(ChatNotFoundException e) {
         return new ApiErrorResponse(
-            "Resource already exists",
+            "Chat not found",
+            HttpStatus.NOT_FOUND.toString(),
+            e.getClass().getSimpleName(),
+            e.getMessage(),
+            Arrays.stream(e.getStackTrace())
+                .map(StackTraceElement::toString)
+                .toList()
+        );
+    }
+
+    @ExceptionHandler(value = LinkAlreadyTrackingException.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public ApiErrorResponse linkAlreadyExist(LinkAlreadyTrackingException e) {
+        return new ApiErrorResponse(
+            "Link already tracking",
+            HttpStatus.CONFLICT.toString(),
+            e.getClass().getSimpleName(),
+            e.getMessage(),
+            Arrays.stream(e.getStackTrace())
+                .map(StackTraceElement::toString)
+                .toList()
+        );
+    }
+
+    @ExceptionHandler(value = ChatAlreadyExistsException.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public ApiErrorResponse chatAlreadyExist(ChatAlreadyExistsException e) {
+        return new ApiErrorResponse(
+            "Chat already exists",
             HttpStatus.CONFLICT.toString(),
             e.getClass().getSimpleName(),
             e.getMessage(),
