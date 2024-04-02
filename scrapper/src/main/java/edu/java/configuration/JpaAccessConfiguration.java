@@ -6,10 +6,6 @@ import edu.java.domain.jpa.JpaLinkRepository;
 import edu.java.domain.repositories.ChatLinkRepository;
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.domain.repositories.LinkRepository;
-import edu.java.service.LinkService;
-import edu.java.service.TgChatService;
-import edu.java.service.jpa.JpaLinkService;
-import edu.java.service.jpa.JpaTgChatService;
 import jakarta.persistence.EntityManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -31,19 +27,5 @@ public class JpaAccessConfiguration {
     @Bean
     public ChatLinkRepository chatLinkRepository(EntityManager entityManager) {
         return new JpaChatLinkRepository(entityManager);
-    }
-
-    @Bean
-    public TgChatService tgChatService(ChatRepository chatRepository) {
-        return new JpaTgChatService(chatRepository);
-    }
-
-    @Bean
-    public LinkService linkService(
-        ChatRepository chatRepository,
-        LinkRepository linkRepository,
-        ChatLinkRepository chatLinkRepository
-    ) {
-        return new JpaLinkService(chatRepository, linkRepository, chatLinkRepository);
     }
 }

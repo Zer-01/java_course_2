@@ -15,8 +15,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
+@Component
 public class DBLinkService implements LinkService {
     private final static String INVALID_LINK = "Invalid link";
     private final static String CHAT_NOT_FOUND = "Chat not found";
