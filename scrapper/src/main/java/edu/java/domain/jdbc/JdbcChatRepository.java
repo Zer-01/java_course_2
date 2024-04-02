@@ -2,8 +2,6 @@ package edu.java.domain.jdbc;
 
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.entity.Chat;
-import java.sql.ResultSet;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +19,7 @@ public class JdbcChatRepository implements ChatRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public final static RowMapper<Chat> CHAT_MAPPER = (ResultSet resultSet, int rowNum) -> new Chat(
-        resultSet.getLong("id"),
-        resultSet.getObject("created_at", OffsetDateTime.class)
-    );
+    public final RowMapper<Chat> chatMapper;
 
     @Override
     public void add(Chat entity) {
@@ -38,11 +33,11 @@ public class JdbcChatRepository implements ChatRepository {
 
     @Override
     public List<Chat> findAll() {
-        return jdbcTemplate.query(FIND_ALL_QUERY, CHAT_MAPPER);
+        return jdbcTemplate.query(FIND_ALL_QUERY, chatMapper);
     }
 
     @Override
     public Optional<Chat> findById(long id) {
-        return jdbcTemplate.queryForStream(FIND_BY_ID_QUERY, CHAT_MAPPER, id).findAny();
+        return jdbcTemplate.queryForStream(FIND_BY_ID_QUERY, chatMapper, id).findAny();
     }
 }

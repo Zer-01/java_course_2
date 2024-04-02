@@ -6,9 +6,8 @@ import edu.java.entity.Link;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import static edu.java.domain.jdbc.JdbcChatRepository.CHAT_MAPPER;
-import static edu.java.domain.jdbc.JdbcLinkRepository.LINK_MAPPER;
 
 @RequiredArgsConstructor
 @Repository
@@ -26,15 +25,17 @@ public class JdbcChatLinkRepository implements ChatLinkRepository {
     private final static String ADD_LINK = "INSERT INTO chat_link(chat_id, link_id) VALUES (?, ?)";
     private final static String REMOVE_LINK = "DELETE FROM chat_link WHERE chat_id = ? AND link_id = ?";
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Chat> chatMapper;
+    private final RowMapper<Link> linkMapper;
 
     @Override
     public List<Link> findLinksOfChat(long chatId) {
-        return jdbcTemplate.query(FIND_LINKS_QUERY, LINK_MAPPER, chatId);
+        return jdbcTemplate.query(FIND_LINKS_QUERY, linkMapper, chatId);
     }
 
     @Override
     public List<Chat> findChatsOfLink(long linkId) {
-        return jdbcTemplate.query(FIND_CHATS_QUERY, CHAT_MAPPER, linkId);
+        return jdbcTemplate.query(FIND_CHATS_QUERY, chatMapper, linkId);
     }
 
     @Override

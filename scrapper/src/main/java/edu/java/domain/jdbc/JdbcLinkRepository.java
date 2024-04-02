@@ -4,7 +4,6 @@ import edu.java.domain.repositories.LinkRepository;
 import edu.java.entity.Link;
 import java.net.URI;
 import java.security.InvalidParameterException;
-import java.sql.ResultSet;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -47,21 +46,16 @@ public class JdbcLinkRepository implements LinkRepository {
         """;
     private final JdbcTemplate jdbcTemplate;
 
-    public final static RowMapper<Link> LINK_MAPPER = (ResultSet resultSet, int rowNum) -> new Link(
-        resultSet.getLong("id"),
-        URI.create(resultSet.getString("url")),
-        resultSet.getObject("last_modified_date", OffsetDateTime.class),
-        resultSet.getObject("last_check_date", OffsetDateTime.class)
-    );
+    public final RowMapper<Link> linkMapper;
 
     @Override
     public Optional<Link> findByUrl(URI url) {
-        return jdbcTemplate.queryForStream(FIND_BY_URL_QUERY, LINK_MAPPER, url.toString()).findAny();
+        return jdbcTemplate.queryForStream(FIND_BY_URL_QUERY, linkMapper, url.toString()).findAny();
     }
 
     @Override
     public Link findOrCreate(URI url) {
-        return jdbcTemplate.queryForObject(FIND_OR_CREATE_QUERY, LINK_MAPPER, url.toString(), url.toString());
+        return jdbcTemplate.queryForObject(FIND_OR_CREATE_QUERY, linkMapper, url.toString(), url.toString());
     }
 
     @Override
@@ -74,7 +68,7 @@ public class JdbcLinkRepository implements LinkRepository {
 
     @Override
     public List<Link> findCheckedEarlyThan(OffsetDateTime time) {
-        return jdbcTemplate.query(FIND_CHECKED_EARLY_QUERY, LINK_MAPPER, time);
+        return jdbcTemplate.query(FIND_CHECKED_EARLY_QUERY, linkMapper, time);
     }
 
     @Override
@@ -89,11 +83,11 @@ public class JdbcLinkRepository implements LinkRepository {
 
     @Override
     public List<Link> findAll() {
-        return jdbcTemplate.query(FIND_ALL_QUERY, LINK_MAPPER);
+        return jdbcTemplate.query(FIND_ALL_QUERY, linkMapper);
     }
 
     @Override
     public Optional<Link> findById(long id) {
-        return jdbcTemplate.queryForStream(FIND_BY_ID_QUERY, LINK_MAPPER, id).findAny();
+        return jdbcTemplate.queryForStream(FIND_BY_ID_QUERY, linkMapper, id).findAny();
     }
 }
