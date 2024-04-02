@@ -1,4 +1,4 @@
-package edu.java.service.jdbc;
+package edu.java.service.db;
 
 import edu.java.domain.repositories.ChatLinkRepository;
 import edu.java.domain.repositories.ChatRepository;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class JdbcLinkService implements LinkService {
+public class DBLinkService implements LinkService {
     private final static String INVALID_LINK = "Invalid link";
     private final static String CHAT_NOT_FOUND = "Chat not found";
     private final static String LINK_NOT_FOUND = "Link not found";
