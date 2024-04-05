@@ -9,11 +9,20 @@ public abstract class SiteParser {
     public SiteParser() {
     }
 
-    public abstract Optional<ParseResult> parse(String host, String path);
+    public Optional<ParseResult> parseOrDelegate(String host, String path) {
+        Optional<ParseResult> tmp = parse(host, path);
+        if (tmp.isPresent()) {
+            return tmp;
+        }
 
-    protected SiteParser getNext() {
-        return nextParser;
+        if (nextParser != null) {
+            return nextParser.parse(host, path);
+        } else {
+            return Optional.empty();
+        }
     }
+
+    protected abstract Optional<ParseResult> parse(String host, String path);
 
     public void setNext(SiteParser nextParser) {
         this.nextParser = nextParser;

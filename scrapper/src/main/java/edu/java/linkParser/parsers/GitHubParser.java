@@ -18,11 +18,6 @@ public class GitHubParser extends SiteParser {
                 return Optional.of(new GitHubParseResult(pathArr[0], pathArr[1]));
             }
         }
-
-        if (getNext() != null) {
-            return getNext().parse(host, path);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.empty();
     }
 }

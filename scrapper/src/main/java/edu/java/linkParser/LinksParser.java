@@ -31,7 +31,7 @@ public class LinksParser implements Parser {
         if (!isValidScheme(url)) {
             return Optional.empty();
         }
-        return parser.parse(url.getHost(), url.getPath());
+        return parser.parseOrDelegate(url.getHost(), url.getPath());
     }
 
     private boolean isValidScheme(URI url) {

@@ -19,11 +19,6 @@ public class StackOverflowParser extends SiteParser {
                 return Optional.of(new StackOverflowParseResult(pathArr[1]));
             }
         }
-
-        if (getNext() != null) {
-            return getNext().parse(host, path);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.empty();
     }
 }

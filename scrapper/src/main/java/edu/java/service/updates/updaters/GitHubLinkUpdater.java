@@ -4,6 +4,7 @@ import edu.java.api.models.LinkUpdateRequest;
 import edu.java.clients.github.GitHubClient;
 import edu.java.dto.RepositoryResponse;
 import edu.java.entity.Link;
+import edu.java.exceptions.LinkUpdateException;
 import edu.java.linkParser.links.GitHubParseResult;
 import edu.java.linkParser.links.ParseResult;
 import java.time.OffsetDateTime;
@@ -27,19 +28,14 @@ public class GitHubLinkUpdater extends SiteLinkUpdater {
             );
 
             if (response.isEmpty()) {
-                return Optional.empty();
+                throw new LinkUpdateException();
             }
 
             Optional<LinkUpdateRequest> result = checkLink(link, response.get());
             link.setLastCheckDate(OffsetDateTime.now());
             return result;
         }
-
-        if (getNext() != null) {
-            return getNext().getLinkUpdate(link, parseResult);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.empty();
     }
 
     private Optional<LinkUpdateRequest> checkLink(Link link, RepositoryResponse response) {

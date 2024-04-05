@@ -4,6 +4,7 @@ import edu.java.api.models.LinkUpdateRequest;
 import edu.java.clients.stackoverflow.StackoverflowClient;
 import edu.java.dto.QuestionResponse;
 import edu.java.entity.Link;
+import edu.java.exceptions.LinkUpdateException;
 import edu.java.linkParser.links.ParseResult;
 import edu.java.linkParser.links.StackOverflowParseResult;
 import java.time.OffsetDateTime;
@@ -26,19 +27,14 @@ public class StackOverflowLinkUpdater extends SiteLinkUpdater {
             );
 
             if (response.isEmpty()) {
-                return Optional.empty();
+                throw new LinkUpdateException();
             }
 
             Optional<LinkUpdateRequest> result = checkLink(link, response.get());
             link.setLastCheckDate(OffsetDateTime.now());
             return result;
         }
-
-        if (getNext() != null) {
-            return getNext().getLinkUpdate(link, parseResult);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.empty();
     }
 
     private Optional<LinkUpdateRequest> checkLink(Link link, QuestionResponse response) {

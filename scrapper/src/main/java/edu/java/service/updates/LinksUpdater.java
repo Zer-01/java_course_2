@@ -39,7 +39,7 @@ public class LinksUpdater implements Updater {
             if (parseResult.isEmpty()) {
                 continue;
             }
-            Optional<LinkUpdateRequest> updateResult = updater.getLinkUpdate(link, parseResult.get());
+            Optional<LinkUpdateRequest> updateResult = updater.getLinkUpdateOrDelegate(link, parseResult.get());
             updateResult.ifPresent(requests::add);
         }
         return requests;
