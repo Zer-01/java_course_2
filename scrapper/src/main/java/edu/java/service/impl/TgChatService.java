@@ -1,10 +1,9 @@
-package edu.java.service.db;
+package edu.java.service.impl;
 
 import edu.java.domain.repositories.ChatRepository;
 import edu.java.entity.Chat;
 import edu.java.exceptions.api.ChatAlreadyExistsException;
 import edu.java.exceptions.api.ChatNotFoundException;
-import edu.java.service.TgChatService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class DBTgChatService implements TgChatService {
+public class TgChatService implements edu.java.service.TgChatService {
     private final ChatRepository chatRepository;
 
     @Override
