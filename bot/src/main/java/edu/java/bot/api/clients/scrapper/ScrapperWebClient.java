@@ -22,11 +22,11 @@ import reactor.util.retry.Retry;
 
 public class ScrapperWebClient implements ScrapperClient {
     WebClient webClient;
-    private final long numberOfAttempts;
     private final long timeoutSeconds;
     private final static String CHAT_ENDPOINT = "/tg-chat/{id}";
     private final static String LINK_ENDPOINT = "/links";
     private final static String HEADER_NAME = "Tg-Chat-Id";
+    private final Retry retrySpec;
 
     public ScrapperWebClient(String baseUrl, long attempts, long timeout) {
         Objects.requireNonNull(baseUrl, "Base Url cannot be null");
@@ -34,7 +34,9 @@ public class ScrapperWebClient implements ScrapperClient {
             .baseUrl(baseUrl)
             .build();
         timeoutSeconds = timeout;
-        numberOfAttempts = attempts;
+        retrySpec = Retry.fixedDelay(attempts, Duration.ofSeconds(timeoutSeconds))
+            .filter(throwable -> !(throwable instanceof CommandException
+                || throwable instanceof ApiErrorException));
     }
 
     public ScrapperWebClient(WebClientsConfig config) {
@@ -53,9 +55,7 @@ public class ScrapperWebClient implements ScrapperClient {
                     .flatMap(error -> Mono.error(new ChatAlreadyExistsException())))
             .bodyToMono(Void.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
-            .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException
-                    || throwable instanceof ApiErrorException)))
+            .retryWhen(retrySpec)
             .block();
     }
 
@@ -71,9 +71,7 @@ public class ScrapperWebClient implements ScrapperClient {
                     .flatMap(error -> Mono.error(new ChatNotFoundException())))
             .bodyToMono(Void.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
-            .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException
-                    || throwable instanceof ApiErrorException)))
+            .retryWhen(retrySpec)
             .block();
     }
 
@@ -90,9 +88,7 @@ public class ScrapperWebClient implements ScrapperClient {
                     .flatMap(error -> Mono.error(new ChatNotFoundException())))
             .bodyToMono(ListLinksResponse.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
-            .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException
-                    || throwable instanceof ApiErrorException)))
+            .retryWhen(retrySpec)
             .blockOptional();
     }
 
@@ -113,9 +109,7 @@ public class ScrapperWebClient implements ScrapperClient {
                     .flatMap(error -> Mono.error(new LinkAlreadyAddedException())))
             .bodyToMono(LinkResponse.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
-            .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException
-                    || throwable instanceof ApiErrorException)))
+            .retryWhen(retrySpec)
             .blockOptional();
     }
 
@@ -135,9 +129,7 @@ public class ScrapperWebClient implements ScrapperClient {
                         ? Mono.error(new LinkNotFoundException()) : Mono.error(new ChatNotFoundException())))
             .bodyToMono(LinkResponse.class)
             .timeout(Duration.ofSeconds(timeoutSeconds))
-            .retryWhen(Retry.fixedDelay(numberOfAttempts, Duration.ofSeconds(timeoutSeconds))
-                .filter(throwable -> !(throwable instanceof CommandException
-                    || throwable instanceof ApiErrorException)))
+            .retryWhen(retrySpec)
             .blockOptional();
     }
 }
