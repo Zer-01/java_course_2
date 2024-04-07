@@ -1,12 +1,10 @@
 package edu.java.service;
 
 import edu.java.api.models.LinkUpdateRequest;
-import edu.java.clients.bot.BotClient;
 import edu.java.domain.repositories.ChatLinkRepository;
 import edu.java.domain.repositories.LinkRepository;
 import edu.java.entity.Chat;
 import edu.java.entity.Link;
-import edu.java.exceptions.api.ApiErrorException;
 import edu.java.service.updates.LinksUpdater;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;

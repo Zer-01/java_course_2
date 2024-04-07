@@ -1,12 +1,12 @@
 package edu.java.configuration.updates;
 
-import java.util.HashMap;
-import java.util.Map;
 import edu.java.api.models.LinkUpdateRequest;
 import edu.java.configuration.ApplicationConfig;
 import edu.java.producers.ScrapperQueueProducer;
 import edu.java.service.SendUpdateService;
 import edu.java.service.senders.KafkaSendUpdateService;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;

@@ -3,8 +3,8 @@ package edu.java.service.senders;
 import edu.java.api.models.LinkUpdateRequest;
 import edu.java.producers.ScrapperQueueProducer;
 import edu.java.service.SendUpdateService;
-import lombok.RequiredArgsConstructor;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class KafkaSendUpdateService implements SendUpdateService {

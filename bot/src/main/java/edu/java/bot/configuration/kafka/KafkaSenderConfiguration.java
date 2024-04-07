@@ -2,6 +2,8 @@ package edu.java.bot.configuration.kafka;
 
 import edu.java.api.models.LinkUpdateRequest;
 import edu.java.bot.configuration.ApplicationConfig;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -16,8 +18,6 @@ import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app", name = "enable-kafka", havingValue = "true")

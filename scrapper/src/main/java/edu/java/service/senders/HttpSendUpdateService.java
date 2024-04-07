@@ -4,9 +4,9 @@ import edu.java.api.models.LinkUpdateRequest;
 import edu.java.clients.bot.BotClient;
 import edu.java.exceptions.api.ApiErrorException;
 import edu.java.service.SendUpdateService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

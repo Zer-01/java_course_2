@@ -34,7 +34,8 @@ public class KafkaListenerConfiguration {
     private final ApplicationConfig applicationConfig;
 
     @Bean
-    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, LinkUpdateRequest>> kafkaListenerContainerFactory(
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, LinkUpdateRequest>>
+    kafkaListenerContainerFactory(
         KafkaTemplate<String, LinkUpdateRequest> template
     ) {
         ConcurrentKafkaListenerContainerFactory<String, LinkUpdateRequest> factory =
@@ -43,7 +44,7 @@ public class KafkaListenerConfiguration {
 
         DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(
             template,
-            (record, ex) -> new TopicPartition(applicationConfig.kafka().dlqTopic(), record.partition())
+            (rec, ex) -> new TopicPartition(applicationConfig.kafka().dlqTopic(), rec.partition())
         );
 
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(recoverer);
