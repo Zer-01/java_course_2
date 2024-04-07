@@ -6,6 +6,7 @@ import edu.java.bot.service.UserService;
 import edu.java.bot.service.client.ClientLinkService;
 import edu.java.bot.service.client.ClientUserService;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +15,9 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "app", ignoreUnknownFields = false)
 public record ApplicationConfig(
     @NotEmpty
-    String telegramToken
+    String telegramToken,
+    @NotNull
+    Kafka kafka
 ) {
     @Bean
     public UserService clientUserService(ScrapperClient scrapperClient) {
@@ -24,5 +27,8 @@ public record ApplicationConfig(
     @Bean
     public LinkService clientLinkService(ScrapperClient scrapperClient) {
         return new ClientLinkService(scrapperClient);
+    }
+
+    public record Kafka(String updatesTopic, String bootstrapServers, String groupId) {
     }
 }

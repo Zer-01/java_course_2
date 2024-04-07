@@ -1,0 +1,56 @@
+package edu.java.bot.configuration.kafka;
+
+import edu.java.api.models.LinkUpdateRequest;
+import java.util.HashMap;
+import java.util.Map;
+import edu.java.bot.configuration.ApplicationConfig;
+import edu.java.bot.listeners.UpdateListener;
+import edu.java.bot.service.UpdateProcessService;
+import lombok.RequiredArgsConstructor;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+
+@RequiredArgsConstructor
+@Configuration
+@EnableKafka
+public class KafkaListenerConfiguration {
+    private final ApplicationConfig applicationConfig;
+
+    @Bean
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, LinkUpdateRequest>> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, LinkUpdateRequest> factory =
+            new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, LinkUpdateRequest> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+    }
+
+    @Bean
+    public Map<String, Object> consumerConfigs() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, applicationConfig.kafka().bootstrapServers());
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, applicationConfig.kafka().groupId());
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "edu.java.api.models");
+        return props;
+    }
+
+    @Bean
+    public UpdateListener updateListener(UpdateProcessService updateProcessService) {
+        return new UpdateListener(updateProcessService);
+    }
+}

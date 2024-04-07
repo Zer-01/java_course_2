@@ -1,5 +1,9 @@
 app:
   telegram-token: ${TELEGRAM_TOKEN}
+  kafka:
+    updates-topic: updates
+    bootstrap-servers: 0.0.0.0:29092
+    group-id: group1
 
 clients:
   connection:
