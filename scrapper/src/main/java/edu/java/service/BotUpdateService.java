@@ -22,14 +22,14 @@ public class BotUpdateService implements UpdateService {
     private final LinkRepository linkRepository;
     private final ChatLinkRepository chatLinkRepository;
     private final LinksUpdater updater;
-    private final BotClient botClient;
+    private final SendUpdateService updateService;
 
     @Override
     public void updateLinks(long linkUpdateInterval) {
         List<Link> links = linkRepository.findCheckedEarlyThan(OffsetDateTime.now().minusSeconds(linkUpdateInterval));
         List<LinkUpdateRequest> requests = updater.getLinkUpdates(links);
         requests = getChatsForRequests(requests);
-        sendUpdates(requests);
+        updateService.sendUpdates(requests);
         for (Link link : links) {
             linkRepository.update(link);
         }
@@ -50,15 +50,5 @@ public class BotUpdateService implements UpdateService {
             ));
         }
         return newRequests;
-    }
-
-    public void sendUpdates(List<LinkUpdateRequest> requests) {
-        for (LinkUpdateRequest request : requests) {
-            try {
-                botClient.sendUpdate(request);
-            } catch (ApiErrorException e) {
-                log.error("Send update error:" + e.getResponse());
-            }
-        }
     }
 }

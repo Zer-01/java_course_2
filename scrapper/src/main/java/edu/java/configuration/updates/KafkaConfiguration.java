@@ -1,8 +1,12 @@
-package edu.java.configuration;
+package edu.java.configuration.updates;
 
 import java.util.HashMap;
 import java.util.Map;
 import edu.java.api.models.LinkUpdateRequest;
+import edu.java.configuration.ApplicationConfig;
+import edu.java.producers.ScrapperQueueProducer;
+import edu.java.service.SendUpdateService;
+import edu.java.service.senders.KafkaSendUpdateService;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -59,5 +63,15 @@ public class KafkaConfiguration {
     @Bean
     public KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate(ProducerFactory<String, LinkUpdateRequest> prodFact) {
         return new KafkaTemplate<>(prodFact);
+    }
+
+    @Bean
+    public ScrapperQueueProducer scrapperQueueProducer(KafkaTemplate<String, LinkUpdateRequest> template) {
+        return new ScrapperQueueProducer(template);
+    }
+
+    @Bean
+    public SendUpdateService sendUpdateService(ScrapperQueueProducer producer) {
+        return new KafkaSendUpdateService(producer, applicationConfig.kafka().updatesTopic());
     }
 }
