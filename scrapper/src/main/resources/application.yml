@@ -4,6 +4,12 @@ app:
     interval: 7500
     force-check-delay: 7500
   database-access-type: jpa
+  use-queue: true
+  kafka:
+    updates-topic: updates
+    topic-partitions: 1
+    replicas: 1
+    bootstrap-servers: 0.0.0.0:29092
 
 clients:
   connection:

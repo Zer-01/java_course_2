@@ -11,12 +11,19 @@ public record ApplicationConfig(
     @NotNull
     Scheduler scheduler,
     @NotNull
-    AccessType databaseAccessType
+    AccessType databaseAccessType,
+    @NotNull
+    boolean useQueue,
+    @NotNull
+    Kafka kafka
 ) {
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }
 
     public enum AccessType {
         JDBC, JPA
+    }
+
+    public record Kafka(String updatesTopic, String bootstrapServers, int topicPartitions, int replicas) {
     }
 }
