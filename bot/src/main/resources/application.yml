@@ -19,6 +19,20 @@ clients:
   urls:
     scrapper: http://localhost:8080
 
+management:
+  endpoints:
+    web:
+      base-path: "/"
+      path-mapping:
+        prometheus: "metrics"
+      exposure:
+        include: "info,health,prometheus"
+  metrics:
+    tags:
+      application: "${spring.application.name}"
+  server:
+    port: 8091
+
 spring:
   cache:
     cache-names:
