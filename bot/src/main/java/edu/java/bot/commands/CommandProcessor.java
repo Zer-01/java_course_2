@@ -10,6 +10,7 @@ import edu.java.bot.exceptions.commands.track.LinkAlreadyAddedException;
 import edu.java.bot.exceptions.commands.track.TrackInvalidFormatException;
 import edu.java.bot.exceptions.commands.untrack.LinkNotFoundException;
 import edu.java.bot.exceptions.commands.untrack.UntrackInvalidFormatException;
+import edu.java.bot.metrics.ProcessedMessagesMetric;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +21,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommandProcessor {
     Map<String, Command> commands;
+    ProcessedMessagesMetric processedMessages;
 
     @Autowired
-    public CommandProcessor(List<Command> commandList) {
+    public CommandProcessor(List<Command> commandList, ProcessedMessagesMetric processedMessages) {
         commands = new HashMap<>();
 
         for (Command command : commandList) {
             commands.put(command.command(), command);
         }
+        this.processedMessages = processedMessages;
     }
 
     public Optional<SendMessageRequest> process(Update update) {
@@ -36,6 +39,7 @@ public class CommandProcessor {
 
         try {
             if (command != null) {
+                processedMessages.increment();
                 return Optional.of(command.handle(update));
             } else {
                 return Optional.empty();
