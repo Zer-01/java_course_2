@@ -5,13 +5,15 @@ import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import edu.java.api.models.LinkUpdateRequest;
 import edu.java.clients.bot.BotWebClient;
-import edu.java.clients.retry.RetryConfig;
-import edu.java.clients.retry.RetryStrategy;
+import edu.java.configuration.WebClientsConfig;
 import edu.java.exceptions.api.ApiErrorException;
 import java.net.URI;
-import java.time.Duration;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import reactor.util.retry.Retry;
 import static com.github.tomakehurst.wiremock.client.WireMock.badRequest;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
@@ -19,9 +21,13 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+@SpringBootTest(classes = ClientsTestConfig.class)
+@EnableConfigurationProperties(WebClientsConfig.class)
+@ActiveProfiles("test")
 @WireMockTest
 public class BotClientTest {
-    Retry retryStub = RetryConfig.getRetryConfig(RetryStrategy.CONSTANT, Duration.ofSeconds(2), 3, List.of(500, 501));
+    @Autowired
+    Retry retryStub;
 
     LinkUpdateRequest requestStub =
         new LinkUpdateRequest(1L, URI.create("http://url.com/123"), "description", List.of(1L, 2L, 3L));

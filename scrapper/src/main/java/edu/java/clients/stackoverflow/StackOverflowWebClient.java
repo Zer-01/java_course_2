@@ -1,6 +1,5 @@
 package edu.java.clients.stackoverflow;
 
-import edu.java.clients.retry.RetryConfig;
 import edu.java.configuration.WebClientsConfig;
 import edu.java.dto.QuestionResponse;
 import java.time.Duration;
@@ -26,12 +25,8 @@ public class StackOverflowWebClient implements StackoverflowClient {
         this.retryConfig = retryConfig;
     }
 
-    public StackOverflowWebClient(WebClientsConfig config) {
-        this(
-            config.urls().stackoverflow(),
-            config.connection().attempts(),
-            RetryConfig.getRetryConfig(config.connection())
-        );
+    public StackOverflowWebClient(WebClientsConfig config, Retry retryConfig) {
+        this(config.urls().stackoverflow(), config.connection().attempts(), retryConfig);
     }
 
     @Override

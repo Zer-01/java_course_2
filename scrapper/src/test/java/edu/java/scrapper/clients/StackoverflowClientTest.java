@@ -3,25 +3,30 @@ package edu.java.scrapper.clients;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import edu.java.clients.retry.RetryConfig;
-import edu.java.clients.retry.RetryStrategy;
 import edu.java.clients.stackoverflow.StackOverflowWebClient;
+import edu.java.configuration.WebClientsConfig;
 import edu.java.dto.QuestionResponse;
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import reactor.util.retry.Retry;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest(classes = ClientsTestConfig.class)
+@EnableConfigurationProperties(WebClientsConfig.class)
+@ActiveProfiles("test")
 @WireMockTest(httpPort = 8080)
 public class StackoverflowClientTest {
-    Retry retryStub = RetryConfig.getRetryConfig(RetryStrategy.CONSTANT, Duration.ofSeconds(2), 3, List.of(500, 501));
+    @Autowired
+    Retry retryStub;
 
     @Test
     void normalResponseTest(WireMockRuntimeInfo wireMockRuntimeInfo) {

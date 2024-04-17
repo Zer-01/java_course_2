@@ -2,7 +2,6 @@ package edu.java.clients.bot;
 
 import edu.java.api.models.ApiErrorResponse;
 import edu.java.api.models.LinkUpdateRequest;
-import edu.java.clients.retry.RetryConfig;
 import edu.java.configuration.WebClientsConfig;
 import edu.java.exceptions.api.ApiErrorException;
 import java.time.Duration;
@@ -26,8 +25,8 @@ public class BotWebClient implements BotClient {
         this.retryConfig = retryConfig;
     }
 
-    public BotWebClient(WebClientsConfig config) {
-        this(config.urls().bot(), config.connection().attempts(), RetryConfig.getRetryConfig(config.connection()));
+    public BotWebClient(WebClientsConfig config, Retry retryConfig) {
+        this(config.urls().bot(), config.connection().attempts(), retryConfig);
     }
 
     public void sendUpdate(LinkUpdateRequest request) {

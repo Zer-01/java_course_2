@@ -1,6 +1,5 @@
 package edu.java.clients.github;
 
-import edu.java.clients.retry.RetryConfig;
 import edu.java.configuration.WebClientsConfig;
 import edu.java.dto.RepositoryResponse;
 import java.time.Duration;
@@ -26,8 +25,8 @@ public class GitHubWebClient implements GitHubClient {
         this.retryConfig = retryConfig;
     }
 
-    public GitHubWebClient(WebClientsConfig config) {
-        this(config.urls().github(), config.connection().attempts(), RetryConfig.getRetryConfig(config.connection()));
+    public GitHubWebClient(WebClientsConfig config, Retry retryConfig) {
+        this(config.urls().github(), config.connection().attempts(), retryConfig);
     }
 
     @Override
