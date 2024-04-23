@@ -3,7 +3,7 @@ app:
   kafka:
     enabled: ${KAFKA_ENABLED:true}
     updates-topic: ${UPDATES_TOPIC:updates}
-    dlq-topic: ${DLQ_TOPIC:updates_dlq}
+    dlq-topic-suffix: ${DLQ_TOPIC_SUFFIX:_dlq}
     dlq-topic-partitions: ${DLQ_TOPIC_PARTITIONS:1}
     dlq-replicas: ${DLQ_REPLICAS:1}
     bootstrap-servers: ${BOOTSTRAP_SERVERS:0.0.0.0:29092}

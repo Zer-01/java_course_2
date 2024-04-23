@@ -33,14 +33,6 @@ public class KafkaSenderConfiguration {
     }
 
     @Bean
-    public NewTopic updatesTopic() {
-        return TopicBuilder.name(applicationConfig.kafka().dlqTopic())
-            .partitions(applicationConfig.kafka().dlqTopicPartitions())
-            .replicas(applicationConfig.kafka().dlqReplicas())
-            .build();
-    }
-
-    @Bean
     public ProducerFactory<String, LinkUpdateRequest> producerFactory() {
         return new DefaultKafkaProducerFactory<>(senderProps());
     }
@@ -54,7 +46,7 @@ public class KafkaSenderConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, LinkUpdateRequest> kafkaTemplate(ProducerFactory<String, LinkUpdateRequest> prodFact) {
+    public KafkaTemplate<String, LinkUpdateRequest> retryableTopicKafkaTemplate(ProducerFactory<String, LinkUpdateRequest> prodFact) {
         return new KafkaTemplate<>(prodFact);
     }
 }

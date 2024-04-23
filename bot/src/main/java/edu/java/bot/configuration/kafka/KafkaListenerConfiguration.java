@@ -41,15 +41,6 @@ public class KafkaListenerConfiguration {
         ConcurrentKafkaListenerContainerFactory<String, LinkUpdateRequest> factory =
             new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-
-        DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(
-            template,
-            (rec, ex) -> new TopicPartition(applicationConfig.kafka().dlqTopic(), rec.partition())
-        );
-
-        DefaultErrorHandler errorHandler = new DefaultErrorHandler(recoverer);
-        factory.setCommonErrorHandler(errorHandler);
-
         return factory;
     }
 

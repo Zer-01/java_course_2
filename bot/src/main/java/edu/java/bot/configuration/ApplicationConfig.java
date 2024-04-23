@@ -29,7 +29,7 @@ public record ApplicationConfig(
         return new ClientLinkService(scrapperClient);
     }
 
-    public record Kafka(boolean enabled, String updatesTopic, String bootstrapServers, String groupId, String dlqTopic,
+    public record Kafka(boolean enabled, String updatesTopic, String bootstrapServers, String groupId, String dlqTopicSuffix,
                         int dlqTopicPartitions, int dlqReplicas) {
     }
 }
