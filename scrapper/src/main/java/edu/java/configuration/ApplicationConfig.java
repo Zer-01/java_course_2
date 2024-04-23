@@ -22,6 +22,7 @@ public record ApplicationConfig(
         JDBC, JPA
     }
 
-    public record Kafka(boolean enabled, String updatesTopic, String bootstrapServers, int topicPartitions, int replicas) {
+    public record Kafka(boolean enabled, String updatesTopic, String bootstrapServers, int topicPartitions,
+                        int replicas) {
     }
 }

@@ -4,7 +4,8 @@ app:
     interval: 7500
     force-check-delay: 7500
   database-access-type: jpa
-  use-queue: false
+  kafka:
+    enabled: false
 
 clients:
   connection:

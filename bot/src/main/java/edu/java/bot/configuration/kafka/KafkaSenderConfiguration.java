@@ -6,13 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -46,7 +44,8 @@ public class KafkaSenderConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, LinkUpdateRequest> retryableTopicKafkaTemplate(ProducerFactory<String, LinkUpdateRequest> prodFact) {
+    public KafkaTemplate<String, LinkUpdateRequest>
+    retryableTopicKafkaTemplate(ProducerFactory<String, LinkUpdateRequest> prodFact) {
         return new KafkaTemplate<>(prodFact);
     }
 }
