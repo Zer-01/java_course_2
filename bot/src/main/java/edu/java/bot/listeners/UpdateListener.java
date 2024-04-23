@@ -16,7 +16,9 @@ public class UpdateListener {
 
     @KafkaListener(topics = "${app.kafka.updates-topic}")
     public void listen(LinkUpdateRequest data) {
-        if (!validator.validate(data).isEmpty()) {
+        var validateResult = validator.validate(data);
+        if (!validateResult.isEmpty()) {
+            log.error(validateResult.toString());
             throw new ValidationException();
         }
         processService.process(data);
