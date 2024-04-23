@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 public record ApplicationConfig(
     @NotEmpty
     String telegramToken,
-    boolean enableKafka,
     @NotNull
     Kafka kafka
 ) {
@@ -30,7 +29,7 @@ public record ApplicationConfig(
         return new ClientLinkService(scrapperClient);
     }
 
-    public record Kafka(String updatesTopic, String bootstrapServers, String groupId, String dlqTopic,
+    public record Kafka(boolean enabled, String updatesTopic, String bootstrapServers, String groupId, String dlqTopic,
                         int dlqTopicPartitions, int dlqReplicas) {
     }
 }

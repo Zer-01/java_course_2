@@ -28,7 +28,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 @RequiredArgsConstructor
 @Configuration
-@ConditionalOnProperty(prefix = "app", name = "enable-kafka", havingValue = "true")
+@ConditionalOnProperty(prefix = "app.kafka", name = "enabled", havingValue = "true")
 @EnableKafka
 public class KafkaListenerConfiguration {
     private final ApplicationConfig applicationConfig;

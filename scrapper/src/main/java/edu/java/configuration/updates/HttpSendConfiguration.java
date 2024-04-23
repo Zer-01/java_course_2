@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConditionalOnProperty(prefix = "app", name = "use-queue", havingValue = "false")
+@ConditionalOnProperty(prefix = "app.kafka", name = "enabled", havingValue = "false")
 public class HttpSendConfiguration {
     @Bean
     public SendUpdateService sendUpdateService(BotClient botClient) {

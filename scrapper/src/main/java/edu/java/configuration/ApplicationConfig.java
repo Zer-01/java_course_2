@@ -13,8 +13,6 @@ public record ApplicationConfig(
     @NotNull
     AccessType databaseAccessType,
     @NotNull
-    boolean useQueue,
-    @NotNull
     Kafka kafka
 ) {
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
@@ -24,6 +22,6 @@ public record ApplicationConfig(
         JDBC, JPA
     }
 
-    public record Kafka(String updatesTopic, String bootstrapServers, int topicPartitions, int replicas) {
+    public record Kafka(boolean enabled, String updatesTopic, String bootstrapServers, int topicPartitions, int replicas) {
     }
 }

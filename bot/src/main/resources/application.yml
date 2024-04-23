@@ -1,13 +1,13 @@
 app:
   telegram-token: ${TELEGRAM_TOKEN}
-  enable-kafka: true
   kafka:
-    updates-topic: updates
-    dlq-topic: updates_dlq
-    dlq-topic-partitions: 1
-    dlq-replicas: 1
-    bootstrap-servers: 0.0.0.0:29092
-    group-id: group1
+    enabled: ${KAFKA_ENABLED:true}
+    updates-topic: ${UPDATES_TOPIC:updates}
+    dlq-topic: ${DLQ_TOPIC:updates_dlq}
+    dlq-topic-partitions: ${DLQ_TOPIC_PARTITIONS:1}
+    dlq-replicas: ${DLQ_REPLICAS:1}
+    bootstrap-servers: ${BOOTSTRAP_SERVERS:0.0.0.0:29092}
+    group-id: ${GROUP_ID:group1}
 
 clients:
   connection:
