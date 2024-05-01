@@ -17,7 +17,7 @@ clients:
     strategy: linear
     codes: [ 500, 502, 503, 504 ]
   urls:
-    scrapper: http://localhost:8080
+    scrapper: ${SCRAPPER_URL:http://localhost:8080}
 
 management:
   endpoints:

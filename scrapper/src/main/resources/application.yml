@@ -21,7 +21,7 @@ clients:
   urls:
     github: https://api.github.com
     stackoverflow: https://api.stackexchange.com
-    bot: http://localhost:8090
+    bot: ${BOT_URL:http://localhost:8090}
 
 spring:
   cache:
@@ -32,9 +32,9 @@ spring:
   liquibase:
     enabled: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/scrapper
-    password: postgres
-    username: postgres
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/scrapper}
+    password: ${DB_PASSWORD:postgres}
+    username: ${DB_USERNAME:postgres}
   application:
     name: scrapper
 
