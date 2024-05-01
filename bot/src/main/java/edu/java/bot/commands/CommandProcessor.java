@@ -10,7 +10,7 @@ import edu.java.bot.exceptions.commands.track.LinkAlreadyAddedException;
 import edu.java.bot.exceptions.commands.track.TrackInvalidFormatException;
 import edu.java.bot.exceptions.commands.untrack.LinkNotFoundException;
 import edu.java.bot.exceptions.commands.untrack.UntrackInvalidFormatException;
-import edu.java.bot.metrics.ProcessedMessagesMetric;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,17 +20,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CommandProcessor {
+    private final static String PROCESSED_MESSAGES_METRIC_NAME = "bot_processed_messages";
     Map<String, Command> commands;
-    ProcessedMessagesMetric processedMessages;
+    MeterRegistry registry;
 
     @Autowired
-    public CommandProcessor(List<Command> commandList, ProcessedMessagesMetric processedMessages) {
+    public CommandProcessor(List<Command> commandList, MeterRegistry registry) {
         commands = new HashMap<>();
 
         for (Command command : commandList) {
             commands.put(command.command(), command);
         }
-        this.processedMessages = processedMessages;
+        this.registry = registry;
     }
 
     public Optional<SendMessageRequest> process(Update update) {
@@ -39,7 +40,7 @@ public class CommandProcessor {
 
         try {
             if (command != null) {
-                processedMessages.increment();
+                registry.counter(PROCESSED_MESSAGES_METRIC_NAME).increment();
                 return Optional.of(command.handle(update));
             } else {
                 return Optional.empty();

@@ -1,10 +1,11 @@
 package edu.java.bot.configuration;
 
-import edu.java.bot.metrics.ProcessedMessagesMetric;
 import edu.java.bot.service.LinkService;
 import edu.java.bot.service.UserService;
 import edu.java.bot.service.inmem.InMemLinkService;
 import edu.java.bot.service.inmem.InMemUserService;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import static org.mockito.ArgumentMatchers.any;
 
 @Configuration
 @ComponentScan(basePackages = "edu.java.bot.commands")
@@ -32,7 +34,9 @@ public class CPTestConfig {
     }
 
     @Bean
-    public ProcessedMessagesMetric processedMessagesMetric(Map<Long, List<String>> db) {
-        return Mockito.mock(ProcessedMessagesMetric.class);
+    public MeterRegistry meterRegistry() {
+        MeterRegistry MRMock = Mockito.mock(MeterRegistry.class);
+        Mockito.when(MRMock.counter(any())).thenReturn(Mockito.mock(Counter.class));
+        return MRMock;
     }
 }
